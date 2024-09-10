@@ -34,11 +34,17 @@ class SortSet {
     template <typename T>
     static void insertSort(vector<T> &vec);
 
+    
+    static void insertSort(string &str);
+
     template <typename T>
     static void insertSort(vector<T> &vec, int begin, int end);
 
     template <typename T>
     static void mergeSort(vector<T> &vec);
+
+    
+    static void mergeSort(string &str);
 
     template <typename T>
     static void mergeSortMixed(vector<T> &vec, int change_len);
@@ -83,6 +89,22 @@ void SortSet::insertSort(vector<T> &vec, int begin, int end) {
         }
         vec[j + 1] = current_value;
     }
+}
+
+
+void SortSet::insertSort(string &str){
+    vector<char> vec_str(str.begin(), str.end());
+    SortSet::insertSort(vec_str);
+    std::string new_str(vec_str.begin(), vec_str.end());
+    str = new_str;
+}
+
+
+void SortSet::mergeSort(string &str){
+    vector<char> vec_str(str.begin(), str.end());
+    SortSet::mergeSort(vec_str);
+    std::string new_str(vec_str.begin(), vec_str.end());
+    str = new_str;
 }
 
 template <typename T>

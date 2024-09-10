@@ -34,7 +34,7 @@ static bool is_vector_sorted(vector<T> &vec) {
 void testEfficiency(int len, vector<double> &timeVec,vector<int> &indexes) {
     vector<int> arr_test = RandomGenerator::getRandomVector<int>(len, 0, 1000);
     int max_i=len/5;
-    for (int i = 1; i <= max_i ; i+=std::max((max_i/150),1)) {
+    for (int i = 1; i <= max_i ; i+=(i>500?std::max((max_i/150),1):5)) {
         double time_sum = 0, repeat_time = 3;
         for (int j = 0; j < repeat_time; j++) {
             auto new_vec = arr_test;
@@ -65,6 +65,20 @@ void testEfficiency(int len, vector<double> &timeVec,vector<int> &indexes) {
     }
 
     cout << index << " is the min time" << endl;
+}
+
+void testOne(){
+    vector<int> arr_test = RandomGenerator::getRandomVector<int>(100000, 0, 1000);
+    auto start = std::chrono::high_resolution_clock::now();
+
+    SortSet::mergeSortMixed(arr_test, 50);
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> duration = end - start;
+
+    cout<<duration.count()<<"s"<<endl;
+    
 }
 
 void testAll() {
@@ -129,6 +143,18 @@ int main() {
     cout << str_1 << endl;
     SortSet::mergeSortMixed(str_1, 10);
     cout << str_1 << endl;
+
+    string str_2 = RandomGenerator::getRandomString(100, 'a', 'z');
+    cout << str_2 << endl;
+    SortSet::insertSort(str_2);
+    cout << str_2 << endl;
+
+    string str_3 = RandomGenerator::getRandomString(100, 'a', 'z');
+    cout << str_3 << endl;
+    SortSet::mergeSort(str_3);
+    cout << str_3 << endl;
+
+    testOne();
 
     //test the time
     testAll();

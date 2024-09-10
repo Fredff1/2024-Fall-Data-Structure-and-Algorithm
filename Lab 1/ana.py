@@ -9,10 +9,10 @@ plt.switch_backend('Agg')
 # 读取CSV文件
 filename = 'output_mixed.csv'
 data = pd.read_csv(filename)
-test_index="1"
+test_index="2"
 
 # 定义绘图函数
-def plot_performance(subset, n_value, output_dir='.', filename_pattern='performance_N_{n}.png'):
+def plot_performance(subset, n_value, output_dir='.', filename_pattern='performance_N_{n}_2.png'):
     plt.figure(figsize=(10, 6))
     plt.plot(subset['i'], subset['time'], marker='o', label=f'N={n_value}')
     
@@ -23,7 +23,7 @@ def plot_performance(subset, n_value, output_dir='.', filename_pattern='performa
     plt.grid(True)
     
     # 保存图像
-    output_path = f'{output_dir}/{filename_pattern.format(n=n_value)+test_index}'
+    output_path = f'{output_dir}/{filename_pattern.format(n=n_value)}'
     plt.savefig(output_path)
     plt.close()  # 关闭当前图，防止重叠
 
