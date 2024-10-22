@@ -2,181 +2,11 @@
 #define RB_TREE_H
 
 #include "Utilility.h"
-
+#include "TreeNode.h"
 #include <functional>
 #include <memory>
 
-enum RBTreeColor { BLACKNODE, REDNODE };
 
-template <typename KeyType, typename DataType>
-struct RBTreeNode {
-    KeyType key;
-    std::unique_ptr<DataType> data;
-    int subtreeSize;
-    RBTreeColor color;
-    RBTreeNode *left;
-    RBTreeNode *right;
-    RBTreeNode *parent;
-    RBTreeNode *NULLNode;
-
-    RBTreeNode(KeyType key, DataType &data, RBTreeNode<KeyType, DataType> *NULLNode) : key(key), data(std::make_unique<DataType>(data)), color(REDNODE), left(NULLNode), right(NULLNode), NULLNode(NULLNode), parent(nullptr), subtreeSize(0) {
-    }
-
-    ~RBTreeNode() {
-    }
-
-    /*维护节点的subTreeSIze信息*/
-    void updateSize() {
-        subtreeSize = 1;
-        if (left) {
-            subtreeSize += left->subtreeSize;
-        }
-        if (right) {
-            subtreeSize += right->subtreeSize;
-        }
-    }
-
-    const DataType &getData() const {
-        return *data;
-    }
-
-    void setData(DataType &newData) {
-        data = std::move(std::make_unique<DataType>(newData));
-    }
-
-    inline bool isNULLNode() const {
-        return this == NULLNode;
-    }
-
-    inline void shiftColor() {
-        if (this->color == BLACKNODE) {
-            this->color = REDNODE;
-        } else {
-            this->color = BLACKNODE;
-        }
-    }
-
-    inline void setColor(RBTreeColor c) {
-        this->color = c;
-    }
-
-    inline RBTreeColor getColor() const {
-        return this->color;
-    }
-
-    inline bool isBlack() const {
-        return color == BLACKNODE;
-    }
-
-    inline bool isRed() const {
-        return color == REDNODE;
-    }
-
-    inline bool isRoot() const {
-        return parent == nullptr;
-    }
-
-    inline bool isLeftChild() const {
-        return parent != nullptr && parent->left == this;
-    }
-
-    inline bool isRightChild() const {
-        return parent != nullptr && parent->right == this;
-    }
-
-    inline bool hasLeft() const {
-        return left != nullptr && left != NULLNode;
-    }
-
-    inline bool hasRight() const {
-        return right != nullptr && right != NULLNode;
-    }
-
-    inline bool hasChild() const {
-        return (!hasLeft()) && (!hasRight());
-    }
-
-    inline RBTreeNode *getGrandParent() {
-        if (parent != nullptr) {
-            return parent->getParent();
-        }
-        return NULLNode;
-    }
-
-    inline RBTreeNode *getParent() {
-        return this->parent;
-    }
-
-    void setParent(RBTreeNode *node) {
-        this->parent = node;
-    }
-
-    inline RBTreeNode *getUncleAunt() {
-        if (parent == nullptr) {
-            return NULLNode;
-        }
-        RBTreeNode *grand_parent = getGrandParent();
-        if (!grand_parent) {
-            return NULLNode;
-        }
-        if (parent->isLeftChild()) {
-            return grand_parent->right;
-        } else {
-            return grand_parent->left;
-        }
-    }
-
-    inline RBTreeNode *getSibling() {
-        if (parent == nullptr) {
-            return NULLNode;
-        }
-
-        if (isLeftChild()) {
-            return parent->right;
-        } else {
-            return parent->left;
-        }
-    }
-
-    inline void setSibling(RBTreeNode *node) {
-        if (parent == nullptr) {
-            return;
-        }
-        if (isLeftChild()) {
-            parent->right = node;
-        } else {
-            parent->left = node;
-        }
-    }
-
-    inline RBTreeNode *getLeft() {
-        return this->left;
-    }
-
-    inline RBTreeNode *getRight() {
-        return this->right;
-    }
-
-    inline void setLeft(RBTreeNode *node) {
-        if (!node) {
-            return;
-        }
-        this->left = node;
-        if (node != NULLNode) { // 避免修改 NULLNode 的父节点
-            node->parent = this;
-        }
-    }
-
-    inline void setRight(RBTreeNode *node) {
-        if (!node) {
-            return;
-        }
-        this->right = node;
-        if (node != NULLNode) {
-            node->parent = this;
-        }
-    }
-};
 
 template <typename KeyType, typename DataType>
 class RedBlackTree {
@@ -189,10 +19,10 @@ class RedBlackTree {
     int size;
 
     /*检测是否所有红节点不连续出现*/
-    bool validateNode(TreeNode *node) ;
+    bool validateNode(TreeNode *node) const;
 
     // 检测从当前节点到叶子节点的每条路径包含相同数量的黑色节点
-    int validateBlackHeight(TreeNode *node);
+    int validateBlackHeight(TreeNode *node) const ;
 
     /*从node开始修复insert后的性质*/
     void insertFix(TreeNode *node);
@@ -203,7 +33,6 @@ class RedBlackTree {
     /*根据索引找到对应节点的递归体*/
     TreeNode *findByIndexHelper(TreeNode *node, int k) const;
 
-    
     /*将v的子树替换到u的位置*/
     void transplant(TreeNode *u, TreeNode *v);
 
@@ -243,32 +72,31 @@ class RedBlackTree {
     }
 
     /*维护所有节点的大小以及树的大小size值*/
-     void updateSubtreeSize(TreeNode *node) {
+    void updateSubtreeSize(TreeNode *node) {
         while (node != nullptr && node != NULLNode) {
             node->updateSize();
-            node = node->parent;
+            node = node->getParent();
         }
         size = root->subtreeSize;
     }
 
     /*删除包括node在内的子树*/
     void deleteTree(TreeNode *node) {
-        if (node != NULLNode) {      
-            deleteTree(node->left);  
-            deleteTree(node->right); 
-            delete node;             
+        if (node != NULLNode) {
+            deleteTree(node->getLeft());
+            deleteTree(node->getRight());
+            delete node;
         }
     }
 
-    
-
   public:
-   /*允许传入lambda函数自定义比较方式
-     默认compareTo(key1,key2)的要求：
-     key1<key2 返回小于0值
-     key1==key2 返回等于0值
-     Key1>key2 返回大于0的值
-   */
+    /*
+      允许传入lambda函数自定义比较方式
+      默认compareTo(key1,key2)的要求：
+      key1<key2 返回小于0值
+      key1==key2 返回等于0值
+      Key1>key2 返回大于0的值
+    */
     RedBlackTree(std::function<int(KeyType, KeyType)> comp) : compareTo(comp), size{0} {
         initNULLNode();
     }
@@ -287,16 +115,12 @@ class RedBlackTree {
           }) {
     }
 
-    
-
     /*删除包括node在内的子树，默认从root开始*/
     void deleteTree() {
         deleteTree(root);
         root = nullptr;
         size = 0;
     }
-
-    
 
     TreeNode *getRoot() const {
         return root;
@@ -306,7 +130,6 @@ class RedBlackTree {
         return NULLNode;
     }
 
-   
     /*根据index返回一个节点，index按照key的大小自动排列*/
     TreeNode *findByIndex(int k) const {
         return findByIndexHelper(root, k);
@@ -321,7 +144,7 @@ class RedBlackTree {
     int getSize() const {
         return this->size;
     }
-    
+
     /*打印树*/
     void printTree(TreeNode *node, std::string indent = "", bool isLeft = true) const;
 
@@ -329,7 +152,7 @@ class RedBlackTree {
     void printTree(std::string indent = "", bool isLeft = true) const;
 
     /*根据key value插入一个节点*/
-    TreeNode * insert(const KeyType &key, DataType data);
+    TreeNode *insert(const KeyType &key, DataType data);
 
     /*根据key删除一个节点*/
     void deleteNode(const KeyType &key);
@@ -341,9 +164,7 @@ class RedBlackTree {
     int indexOf(const KeyType &key) const;
 
     /*验证树的性质*/
-    bool validateRBTree(TreeNode *node = nullptr);
-
-    
+    bool validateRBTree(TreeNode *node = nullptr,bool print_text=false) const;
 };
 
 template <typename KeyType, typename DataType>
@@ -352,13 +173,13 @@ void RedBlackTree<KeyType, DataType>::leftRotate(TreeNode *node) {
     if (node_right == NULLNode) {
         return;
     }
-    node->setRight(node_right->left);
+    node->setRight(node_right->getLeft());
 
     /*Step 1
         过继右左节点的所有权到自己
     */
-    if (node_right->left != NULLNode) {
-        node_right->left->setParent(node);
+    if (node_right->getLeft() != NULLNode) {
+        node_right->getLeft()->setParent(node);
     }
 
     /*Step 2
@@ -366,14 +187,14 @@ void RedBlackTree<KeyType, DataType>::leftRotate(TreeNode *node) {
 
     */
 
-    node_right->setParent(node->parent);
+    node_right->setParent(node->getParent());
 
     if (node->isRoot()) { // 根节点时的操作
         this->root = node_right;
     } else if (node->isLeftChild()) {
-        node->parent->setLeft(node_right);
+        node->getParent()->setLeft(node_right);
     } else {
-        node->parent->setRight(node_right);
+        node->getParent()->setRight(node_right);
     }
 
     node_right->setLeft(node); // 转换父子关系
@@ -384,17 +205,17 @@ void RedBlackTree<KeyType, DataType>::leftRotate(TreeNode *node) {
 
 template <typename KeyType, typename DataType>
 void RedBlackTree<KeyType, DataType>::rightRotate(TreeNode *node) {
-    TreeNode *node_left = node->left;
+    TreeNode *node_left = node->getLeft();
     if (node_left == NULLNode) {
         return;
     }
-    node->setLeft(node_left->right);
+    node->setLeft(node_left->getRight());
 
-    if (node_left->right != NULLNode) {
-        node_left->right->setParent(node);
+    if (node_left->getRight() != NULLNode) {
+        node_left->getRight()->setParent(node);
     }
 
-    node_left->setParent(node->parent);
+    node_left->setParent(node->getParent());
 
     if (node->isRoot()) {
         this->root = node_left;
@@ -410,8 +231,10 @@ void RedBlackTree<KeyType, DataType>::rightRotate(TreeNode *node) {
 }
 
 template <typename KeyType, typename DataType>
-RBTreeNode<KeyType,DataType>* RedBlackTree<KeyType, DataType>::insert(const KeyType &key, DataType data) {
-    if (search(key) != nullptr) {
+RBTreeNode<KeyType, DataType> *RedBlackTree<KeyType, DataType>::insert(const KeyType &key, DataType data) {
+    TreeNode* search_result=search(key);
+    if (search_result != nullptr&&!search_result->isNULLNode()) {
+        cout<<"key "<<key<<" already exists"<<endl;
         deleteNode(key);
     }
     TreeNode *z = createNode(key, data);
@@ -420,23 +243,25 @@ RBTreeNode<KeyType,DataType>* RedBlackTree<KeyType, DataType>::insert(const KeyT
     TreeNode *x = root;
 
     // 遍历树，找到插入点
-    while (x != NULLNode && x != nullptr) { 
+    while (x != NULLNode && x != nullptr) {
         y = x;
         if (compareTo(z->key, x->key) < 0) {
-            x = x->left;
+            x = x->getLeft();
         } else {
-            x = x->right;
+            x = x->getRight();
         }
     }
-
-    z->parent = y;
+    z->setParent(y);
+    //z->parent = y;
 
     if (y == nullptr) {
         root = z;
     } else if (compareTo(z->key, y->key) < 0) {
-        y->left = z;
+        y->setLeft(z);
+        //y->left = z;
     } else {
-        y->right = z;
+        y->setRight(z);
+        //y->right = z;
     }
 
     this->updateSubtreeSize(z);
@@ -499,7 +324,8 @@ void RedBlackTree<KeyType, DataType>::insertFix(TreeNode *node) {
 
     // 确保根节点始终是黑色
     if (node == NULLNode) {
-        node->parent = nullptr;
+        node->setParent(nullptr);
+        //node->parent = nullptr;
     }
     root->setColor(BLACKNODE);
 }
@@ -516,7 +342,7 @@ void RedBlackTree<KeyType, DataType>::deleteNode(const KeyType &key) {
     RBTreeColor originalColor = deleteTarget->getColor(); // 保存删除节点的颜色
     if (!deleteTarget->hasLeft() && !deleteTarget->hasRight()) {
         replaceNode = deleteTarget->getRight();
-        replaceNode->setParent(deleteTarget->getParent());
+        replaceNode->setParent(deleteTarget->getParent()); // 删除叶节点，需要额外暂时设置NULLnode的父亲方便得到兄弟进行fix
         transplant(deleteTarget, deleteTarget->getRight());
     } else if (!deleteTarget->hasLeft()) {
         // 目标节点没有左子节点，用右子节点代替
@@ -532,8 +358,8 @@ void RedBlackTree<KeyType, DataType>::deleteNode(const KeyType &key) {
         originalColor = successor->getColor();
         replaceNode = successor->getRight();
 
-        if (replaceNode->isNULLNode()) {
-            replaceNode->setParent(successor->getParent()); 
+        if (replaceNode->isNULLNode()) { // replaceNode为NULLNode，也需要额外暂时设置NULLnode的父亲方便得到兄弟进行fix
+            replaceNode->setParent(successor->getParent());
         }
 
         if (successor->getParent() == deleteTarget) {
@@ -566,7 +392,7 @@ void RedBlackTree<KeyType, DataType>::deleteFix(TreeNode *node) {
     while (node != root && node->isBlack()) {
         if (node->isLeftChild()) {
             TreeNode *sibling = node->getSibling();
-            if (sibling->isRed()) { 
+            if (sibling->isRed()) { // case 1 左旋转化为其他case
                 sibling->setColor(BLACKNODE);
                 node->getParent()->setColor(REDNODE);
                 leftRotate(node->getParent());
@@ -574,22 +400,22 @@ void RedBlackTree<KeyType, DataType>::deleteFix(TreeNode *node) {
             }
 
             if (sibling->getLeft()->isBlack() && sibling->getRight()->isBlack()) {
-                sibling->setColor(REDNODE);
+                sibling->setColor(REDNODE); // case 2 变色，向上继续判断
                 node = node->getParent();
             } else {
-                if (sibling->getRight()->isBlack()) {
+                if (sibling->getRight()->isBlack()) { // case 3 右旋转化为case 4
                     sibling->getLeft()->setColor(BLACKNODE);
                     sibling->setColor(REDNODE);
                     rightRotate(sibling);
                     sibling = node->getParent()->getRight();
                 }
-                sibling->setColor(node->getParent()->getColor());
+                sibling->setColor(node->getParent()->getColor()); // case 4 左旋 完成调整
                 node->getParent()->setColor(BLACKNODE);
                 sibling->getRight()->setColor(BLACKNODE);
                 leftRotate(node->getParent());
                 node = root;
             }
-        } else {
+        } else { // 对称情况
             TreeNode *sibling = node->getSibling();
             if (sibling->isRed()) {
                 sibling->setColor(BLACKNODE);
@@ -617,7 +443,7 @@ void RedBlackTree<KeyType, DataType>::deleteFix(TreeNode *node) {
         }
     }
     node->setColor(BLACKNODE);
-    NULLNode->setColor(BLACKNODE);
+    NULLNode->setColor(BLACKNODE); // 重新初始化NULLnode
     NULLNode->setParent(nullptr);
 }
 
@@ -632,9 +458,9 @@ RBTreeNode<KeyType, DataType> *RedBlackTree<KeyType, DataType>::search(const Key
         if (compareTo(key, z->key) == 0) {
             break;
         } else if (compareTo(key, z->key) < 0) {
-            z = z->left;
+            z = z->getLeft();
         } else {
-            z = z->right;
+            z = z->getRight();
         }
     }
     return z;
@@ -645,8 +471,8 @@ RBTreeNode<KeyType, DataType> *RedBlackTree<KeyType, DataType>::minimum(TreeNode
     if (node == NULLNode) {
         return node;
     }
-    while (node->left != NULLNode) {
-        node = node->left;
+    while (node->getLeft() != NULLNode) {
+        node = node->getLeft();
     }
     return node;
 }
@@ -667,14 +493,15 @@ void RedBlackTree<KeyType, DataType>::transplant(TreeNode *oldNode, TreeNode *ne
 
 template <typename KeyType, typename DataType>
 void RedBlackTree<KeyType, DataType>::printTree(TreeNode *node, std::string indent, bool isLeft) const {
+    
     if (node != NULLNode) {
 
         std::cout << indent;
 
         if (isLeft) {
-            std::cout << "L----"; 
+            std::cout << "L----";
         } else {
-            std::cout << "R----"; 
+            std::cout << "R----";
         }
 
         std::string color = (node->getColor() == REDNODE) ? "RED" : "BLACK";
@@ -682,34 +509,34 @@ void RedBlackTree<KeyType, DataType>::printTree(TreeNode *node, std::string inde
 
         indent += (isLeft ? "|     " : "      ");
 
-        printTree(node->left, indent, true);
+        printTree(node->getLeft(), indent, true);
 
-        printTree(node->right, indent, false);
+        printTree(node->getRight(), indent, false);
     }
 }
 
 template <typename KeyType, typename DataType>
 void RedBlackTree<KeyType, DataType>::printTree(std::string indent, bool isLeft) const {
-    printTree(root,indent,isLeft);
+    printTree(root, indent, isLeft);
 }
 
 template <typename KeyType, typename DataType>
 int RedBlackTree<KeyType, DataType>::indexOf(const KeyType &key) const {
-    TreeNode *node = root; 
-    int index = 0;        
+    TreeNode *node = root;
+    int index = 0;
     while (node != nullptr && node != NULLNode) {
-        int leftSize = (node->left != nullptr && node->left != NULLNode) ? node->left->subtreeSize : 0;
+        int leftSize = (node->getLeft() != nullptr && node->getLeft() != NULLNode) ? node->getLeft()->subtreeSize : 0;
 
         if (compareTo(key, node->key) < 0) {
-            node = node->left;
+            node = node->getLeft();
         } else if (compareTo(key, node->key) == 0) {
             return index + leftSize;
         } else {
             index += leftSize + 1;
-            node = node->right;
+            node = node->getRight();
         }
     }
-    return -1; 
+    return -1;
 }
 
 template <typename KeyType, typename DataType>
@@ -718,19 +545,19 @@ RBTreeNode<KeyType, DataType> *RedBlackTree<KeyType, DataType>::findByIndexHelpe
         return nullptr; // 如果节点为空，返回空指针
     }
 
-    int leftSize = (node->left != nullptr && node->left != NULLNode) ? node->left->subtreeSize : 0;
+    int leftSize = (node->getLeft() != nullptr && node->getLeft() != NULLNode) ? node->left->subtreeSize : 0;
 
     if (k < leftSize) {
-        return findByIndexHelper(node->left, k);
+        return findByIndexHelper(node->getLeft(), k);
     } else if (k == leftSize) {
         return node;
     } else {
-        return findByIndexHelper(node->right, k - leftSize - 1);
+        return findByIndexHelper(node->getRight(), k - leftSize - 1);
     }
 }
 
 template <typename KeyType, typename DataType>
-bool RedBlackTree<KeyType, DataType>::validateRBTree(TreeNode *node ) {
+bool RedBlackTree<KeyType, DataType>::validateRBTree(TreeNode *node,bool print_text) const{
     if (root == NULLNode) {
         return true; // 空树是有效的红黑树
     }
@@ -742,7 +569,7 @@ bool RedBlackTree<KeyType, DataType>::validateRBTree(TreeNode *node ) {
     }
 
     auto flag = validateNode(root) && validateBlackHeight(root) != -1;
-    if (flag) {
+    if (flag&&print_text) {
         cout << "满足红黑树性质" << endl;
     }
 
@@ -750,12 +577,12 @@ bool RedBlackTree<KeyType, DataType>::validateRBTree(TreeNode *node ) {
 }
 
 template <typename KeyType, typename DataType>
-bool RedBlackTree<KeyType, DataType>::validateNode(TreeNode *node) {
+bool RedBlackTree<KeyType, DataType>::validateNode(TreeNode *node) const{
     if (node == NULLNode) {
-        return true; 
+        return true;
     }
 
-    //验证子节点颜色
+    // 验证子节点颜色
     if (node->getColor() == REDNODE) {
         if (node->left->getColor() != BLACKNODE || node->right->getColor() != BLACKNODE) {
             std::cout << "红色节点 " << node->key << " 的子节点不是黑色！" << std::endl;
@@ -763,13 +590,12 @@ bool RedBlackTree<KeyType, DataType>::validateNode(TreeNode *node) {
         }
     }
 
-
     return validateNode(node->left) && validateNode(node->right);
 }
 
 // 验证性质5：从当前节点到叶子节点的每条路径包含相同数量的黑色节点
 template <typename KeyType, typename DataType>
-int RedBlackTree<KeyType, DataType>::validateBlackHeight(TreeNode *node) {
+int RedBlackTree<KeyType, DataType>::validateBlackHeight(TreeNode *node) const {
     if (node == NULLNode) {
         return 1; // 叶子节点返回黑色高度 1
     }
@@ -781,7 +607,6 @@ int RedBlackTree<KeyType, DataType>::validateBlackHeight(TreeNode *node) {
         std::cout << "节点 " << node->key << " 的左右子树的黑色高度不一致！" << "左为 " << leftBlackHeight << "右为 " << rightBlackHeight << std::endl;
         return -1;
     }
-
 
     return leftBlackHeight + (node->getColor() == BLACKNODE ? 1 : 0);
 }

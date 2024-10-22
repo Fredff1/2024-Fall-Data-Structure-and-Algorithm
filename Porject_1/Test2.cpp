@@ -4,7 +4,7 @@
 int main() {
     // 基础功能测试
     TreeMap<int, std::string> myMap;
-    auto *val_2=myMap.insert(1, "one");
+    RBTreeNode<int,std::string> *val_2=(RBTreeNode<int,std::string> *)myMap.insert(1, "one");
     myMap.insert(2, "two");
     myMap.insert(3, "three");
 
@@ -28,7 +28,12 @@ int main() {
     assert(myMap[1] == "apple");
 
     myMap[2] = "banana";
+    cout<<myMap[2]<<endl;
     assert(myMap[2] == "banana");
+
+    myMap[2] = "strawberry";
+    assert(myMap[2]=="strawberry");
+    cout<<myMap[2]<<endl;
 
     std::string defaultValue = myMap[3];
     assert(defaultValue == "three");
@@ -46,7 +51,7 @@ int main() {
     assert(val && *val == "three");
 
     for(int i=0;i<myMap.size();i++){
-        auto value_=myMap.find(i);
+        auto value_=myMap.findByIndex(i);
         cout<<value_<<" "<<endl;
         
     }
