@@ -4,7 +4,7 @@
 #include "RBTree.h"
 
 template <typename KeyType, typename ValueType>
-class TreeMap : public Map<KeyType, ValueType> {
+class RBTreeMap : public Map<KeyType, ValueType> {
     using TreeNode = RBTreeNode<KeyType, ValueType>;
 
   private:
@@ -12,7 +12,7 @@ class TreeMap : public Map<KeyType, ValueType> {
 
   public:
     /*使用默认的比较器，要求KeyType重载> = <符号*/
-    TreeMap() : rbTree(RedBlackTree<KeyType, ValueType>()) {
+    RBTreeMap() : rbTree(RedBlackTree<KeyType, ValueType>()) {
     }
 
     /*允许传入lambda函数自定义比较方式
@@ -21,13 +21,16 @@ class TreeMap : public Map<KeyType, ValueType> {
      key1==key2 返回等于0值
      Key1>key2 返回大于0的值
     */
-    TreeMap(std::function<int(KeyType, KeyType)> comp) : rbTree(RedBlackTree<KeyType, ValueType>(comp)) {
+    RBTreeMap(std::function<int(KeyType, KeyType)> comp) : rbTree(RedBlackTree<KeyType, ValueType>(comp)) {
+    }
+
+    ~RBTreeMap(){
+        
     }
 
     /*插入一个key，value的节点*/
-    MyTreeMode<KeyType, ValueType> *insert(const KeyType &key, const ValueType &value) override {
+    void insert(const KeyType &key, const ValueType &value) override {
         TreeNode *node = this->rbTree.insert(key, value);
-        return node;
     }
 
     /*
@@ -45,7 +48,7 @@ class TreeMap : public Map<KeyType, ValueType> {
     /*
     根据key设置对应的value为新value，如果key不存在，会创建一个新的节点
     */
-    void set(const KeyType &key, ValueType &value) override {
+    void set(const KeyType &key, const ValueType &value) override {
         TreeNode *node = rbTree.search(key);
         if (node == nullptr || node->isNULLNode()) {
             insert(key, value);
@@ -99,6 +102,10 @@ class TreeMap : public Map<KeyType, ValueType> {
     /*得到大小*/
     int size() const override {
         return rbTree.getSize();
+    }
+
+    std::string toString(int indent) const override{
+        return rbTree.toStringRepresentation(indent);
     }
 
     void print(std::string indent = "") const {

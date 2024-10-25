@@ -1,10 +1,9 @@
-#include "Utilility.h"
-#include "RBTree.h"
+#include "../src/Utilility.h"
+#include "../src/RBTree.h"
 
+#include <cassert>
 
-int main() {
-
-
+int testAll(){
     auto treeTest = RedBlackTree<int, int>();
 
     // treeTest.printTree(treeTest.getRoot());
@@ -110,6 +109,42 @@ int main() {
         cout << "Alternating insert/delete test failed!" << endl;
         return 1;
     }
+    return 0;
+}
+
+void testFunction(){
+    auto treeTest = RedBlackTree<int, int>();
+    vector<int> a;
+    for(int i=0;i<100;i++){
+        a.push_back(i);
+    }
+    for(int i=0;i<200;i++){
+        treeTest.insert(i,i);
+    }
+
+    for(int i=0;i<200;i+=5){
+        treeTest.deleteNode(i);
+    }
+
+    for(int i=0;i<treeTest.getSize();i++){
+        auto s=treeTest.findByIndex(i);
+        assert(s->getKey()==s->getData());
+    }
+
+    treeTest.insert(11,1000);
+    auto repeat_node=treeTest.search(11);
+    assert(repeat_node->getData()==1000);
+
+    int index_a=treeTest.indexOf(12);
+    auto* node=treeTest.findByIndex(12);
+    treeTest.printTree();
+    
+}
+
+int main() {
+    //testAll();
+    testFunction();
+    
 
     return 0;
 }

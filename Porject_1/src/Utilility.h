@@ -10,6 +10,7 @@
 #include <functional>
 #include <tuple>
 #include <type_traits>
+#include <windows.h>
 
 
 using std::cin;
@@ -75,6 +76,25 @@ auto measure_time(Func func, Obj&& obj, Args&&... args) -> std::conditional_t<st
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start;
         return std::make_tuple(result, duration.count());  // 返回结果和执行时间
+    }
+}
+
+void toggleConsoleEncoding() {
+    UINT inputCodePage = GetConsoleCP();
+    UINT outputCodePage = GetConsoleOutputCP();
+
+    if (inputCodePage == 65001 && outputCodePage == 65001) {
+        // 当前为 UTF-8，切换到 GBK
+        SetConsoleOutputCP(936);
+        SetConsoleCP(936);
+        std::cout << "Switched console encoding to GBK (936)." << std::endl;
+    } else if (inputCodePage == 936 && outputCodePage == 936) {
+        // 当前为 GBK，切换到 UTF-8
+        SetConsoleOutputCP(65001);
+        SetConsoleCP(65001);
+        std::cout << "Switched console encoding to UTF-8 (65001)." << std::endl;
+    } else {
+        std::cout << "Console encoding is neither UTF-8 nor GBK. No changes made." << std::endl;
     }
 }
 

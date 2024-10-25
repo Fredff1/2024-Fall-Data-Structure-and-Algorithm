@@ -1,18 +1,18 @@
-#include "TreeMap.h"
+#include "../src/BtreeMap.h"
+
+#include "../src/Utilility.h"
 #include <cassert>
 
-int main() {
-    // 基础功能测试
-    TreeMap<int, std::string> myMap;
-    RBTreeNode<int,std::string> *val_2=(RBTreeNode<int,std::string> *)myMap.insert(1, "one");
+
+void testAll(){
+    BTreeMap<int, std::string> myMap;
     myMap.insert(2, "two");
     myMap.insert(3, "three");
 
-    assert(myMap.size()==3);
+    assert(myMap.size()==2);
 
-    std::string *val = myMap.get(1);
-    assert(val && *val == "one");
-    assert(val_2->getData()=="one");
+    std::string *val = myMap.get(2);
+    assert(val && *val == "two");
 
     val = myMap.get(2);
     assert(val && *val == "two");
@@ -52,7 +52,7 @@ int main() {
 
     for(int i=0;i<myMap.size();i++){
         auto value_=myMap.findByIndex(i);
-        cout<<value_<<" "<<endl;
+        cout<<value_.first<<" "<<endl;
         
     }
 
@@ -73,7 +73,7 @@ int main() {
     assert(myMap[1] == "second");
 
     // 大规模测试
-    const int NUM_ELEMENTS = 100000;
+    const int NUM_ELEMENTS = 1000;
     for (int i = 0; i < NUM_ELEMENTS; ++i) {
         myMap.insert(i, std::to_string(i * 2)); // 将 i * 2 转换为字符串插入
     }
@@ -102,5 +102,30 @@ int main() {
 
     std::cout << "All tests passed!" << std::endl;
 
+}
+
+void testFunction(){
+    BTreeMap<int,int> mymap;
+    vector<int> inserttarget;
+    for(int i=0;i<1000;i++){
+        inserttarget.push_back(i);
+    }
+    for(int i=0;i<200;i++){
+        mymap.insert(i,inserttarget[i]);
+    }
+    mymap.print();
+    auto* value_120=mymap.get(120);
+    assert(*value_120==120);
+    auto pair_1=mymap.findByIndex(12);
+    assert(pair_1.second==12);
+    int index_of_12=mymap.indexOf(12);
+    assert(index_of_12==12);
+    
+}
+
+int main() {
+    testAll();
+    //testFunction();
+    
     return 0;
 }

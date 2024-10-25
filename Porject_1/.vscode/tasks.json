@@ -6,9 +6,13 @@
             "command": "D:\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
+                "-fexec-charset=utf-8",
+                //"-fsanitize=address",
+                "-O3",
                 "-g",
                 "${file}",
                 "-o",
+                
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
             "options": {

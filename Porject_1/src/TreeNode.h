@@ -4,18 +4,13 @@
 
 #include <memory>
 
-
-template<typename KeyType,typename ValueType>
-struct MyTreeMode{
-   
-
-
-};
+template <typename KeyType, typename ValueType>
+struct MyTreeMode {};
 
 enum RBTreeColor { BLACKNODE, REDNODE };
 
 template <typename KeyType, typename DataType>
-struct RBTreeNode :public MyTreeMode<KeyType,DataType>{
+struct RBTreeNode : public MyTreeMode<KeyType, DataType> {
     KeyType key;
     std::unique_ptr<DataType> data;
     int subtreeSize;
@@ -42,11 +37,15 @@ struct RBTreeNode :public MyTreeMode<KeyType,DataType>{
         }
     }
 
-    DataType &getData(){
+    DataType &getData() {
         return *data;
     }
 
-    void setData(DataType &newData) {
+    KeyType &getKey() {
+        return key;
+    }
+
+    void setData(const DataType &newData) {
         data = std::move(std::make_unique<DataType>(newData));
     }
 
@@ -184,137 +183,176 @@ struct RBTreeNode :public MyTreeMode<KeyType,DataType>{
     }
 };
 
-
-template<typename KeyType,typename ValueType>
-struct BTreeNode{
+template <typename KeyType, typename ValueType>
+struct BTreeNode {
     std::vector<KeyType> keys;
     std::vector<ValueType> values;
-    std::vector<BTreeNode*> children;
+    std::vector<BTreeNode *> children;
     bool isLeafNode;
     int keyNums;
     int childNums;
     int T;
-    BTreeNode(bool leaf,int T):T(T) {
+    std::vector<int> sizes; // 新增：每个子节点的子树大小
+    BTreeNode(bool leaf, int T) : T(T) {
         isLeafNode = leaf;
         keyNums = 0;
-        childNums=0;
-        keys.resize(2 * T - 1);   
-        values.resize(2*T-1);      // 节点中最多能存储 2T-1 个键值
-        children.resize(2 * T-1);         // 最多有 2T-1 个子节点
+        childNums = 0;
+        sizes.assign(2 * T, 0);
+        keys.assign(2 * T - 1, KeyType());
+        values.assign(2 * T - 1, ValueType()); // 节点中最多能存储 2T-1 个键值
+        children.assign(2 * T, nullptr);
+    }
+
+    ~BTreeNode() {
+
     }
 
     bool isFull() const {
-        return keyNums>=(2*T-1);
+        return keyNums >= (2 * T - 1);
     }
 
-    void setKeyValueAt(int index, const KeyType& key, const ValueType& value){
-        keys[index]=key;
-        values[index]=value;
+    int findKeyIndex(const KeyType &key) {
+        for (int i = 0; i < keyNums; i++) {
+            if (keys[i] == key) {
+                return i;
+            }
+        }
+        return -1;
     }
 
-    KeyType& getKeyAt(int index){
-        if(index < 0 || index >= keyNums){
+    ValueType &getValueByKey(const KeyType &key) {
+        int index = findKeyIndex(key);
+        return values[index];
+    }
+
+    void setKeyValueAt(int index, const KeyType &key, const ValueType &value) {
+        keys[index] = key;
+        values[index] = value;
+    }
+
+    void setValueAt(int index, const ValueType &value) {
+        if (index < 0 || index >= keyNums) {
+            throw std::invalid_argument("Index cannot be bigger than T");
+        }
+        values[index] = value;
+    }
+
+    KeyType &getKeyAt(int index) {
+        if (index < 0 || index >= keyNums) {
             throw std::invalid_argument("Index cannot be bigger than T");
         }
         return keys[index];
     }
 
-    BTreeNode* getChildAt(int index){
-        if(index < 0 || index >= childNums){
+    BTreeNode *getChildAt(int index) {
+        if (index < 0 || index >= childNums) {
             throw std::invalid_argument("Index cannot be bigger than T");
         }
         return children[index];
     }
 
-    ValueType& getValueAt(int index) {
+    ValueType &getValueAt(int index) {
         if (index < 0 || index >= keyNums) {
             throw std::invalid_argument("Index exceeds bounds of value array");
         }
         return values[index];
     }
 
-    void insertKeyValueAt(int index, const KeyType& key, const ValueType& value) {
+    void insertKeyValueAt(int index, const KeyType &key, const ValueType &value) {
         if (index < 0 || index > keyNums || index >= keys.size()) {
             throw std::invalid_argument("Invalid index for insertion");
         }
 
-
         // 步骤2：右移所有比 index 后的键
         for (int i = keyNums - 1; i >= index; i--) {
-            keys[i + 1] = keys[i];  // 将现有键值右移一位
+            keys[i + 1] = keys[i]; // 将现有键值右移一位
             values[i + 1] = values[i];
         }
 
         // 步骤3：在 index 位置插入新键
         keys[index] = key;
         values[index] = value;
-        keyNums++;  // 增加节点中键的数量
+        keyNums++; // 增加节点中键的数量
     }
 
-
-
-    void insertChildAt(int index, BTreeNode* child) {
-        if (index < 0 || index > 2*T ) {
+    void insertChildAt(int index, BTreeNode *child) {
+        if (index < 0 || index > 2 * T) {
             throw std::invalid_argument("Invalid index for child insertion");
         }
 
-
         // 步骤2：右移所有比 index 后的子节点
         for (int i = childNums; i > index; i--) {
-            children[i] = children[i - 1];  // 将现有子节点右移
+            children[i] = children[i - 1]; // 将现有子节点右移
+            sizes[i] = sizes[i - 1];
         }
 
         // 步骤3：在 index 位置插入新子节点
         children[index] = child;
-        childNums++;  // 增加子节点的数量
+        childNums++; // 增加子节点的数量
+        sizes[index] = child->getTotalSize();
     }
 
-
     void removeKeyValueAt(int index) {
-        if (index < 0 || index > keyNums ) {
+        if (index < 0 || index > keyNums) {
             throw std::invalid_argument("Invalid index for removal");
         }
-
 
         for (int i = index; i < keyNums - 1; i++) {
             keys[i] = keys[i + 1];
             values[i] = values[i + 1];
         }
         keyNums--;
-        
     }
 
-
     void removeChildAt(int index) {
-        if (index < 0 || index > childNums ) {
+        if (index < 0 || index > childNums) {
             throw std::invalid_argument("Invalid index for child removal");
         }
 
-        for (int i = index; i < childNums-1; i++) {
+        for (int i = index; i < childNums - 1; i++) {
             children[i] = children[i + 1];
+            sizes[i] = sizes[i + 1];
         }
         childNums--;
     }
 
-    void setIsLeaf(bool flag){
-        this->isLeafNode=flag;
+    void setIsLeaf(bool flag) {
+        this->isLeafNode = flag;
     }
 
-    bool isLeaf() const{
+    bool isLeaf() const {
         return isLeafNode;
     }
 
-    int getT() const{
+    int getT() const {
         return this->T;
     }
 
-    int getKeyNums() const{
+    int getKeyNums() const {
         return keyNums;
     }
 
-    int getChildNums() const{
+    int getChildNums() const {
         return childNums;
+    }
+
+    int getTotalSize() const {
+        int total = keyNums;
+        for (int i = 0; i < childNums; ++i) {
+            total += sizes[i];
+        }
+        return total;
+    }
+
+    void updateSizes() {
+        for (int i = 0; i < childNums; ++i) {
+            if (children[i]) {
+                sizes[i] = children[i]->getTotalSize();
+            } else {
+                sizes[i] = 0;
+            }
+        }
     }
 };
 
-#endif 
+#endif

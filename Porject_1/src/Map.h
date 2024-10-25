@@ -8,14 +8,16 @@ template<typename KeyType,typename ValueType>
 class Map{
 public:
 
-    virtual MyTreeMode<KeyType,ValueType>* insert(const KeyType& key,const ValueType& value)=0;
+    virtual ~Map(){}
+
+    virtual void insert(const KeyType& key,const ValueType& value)=0;
 
     virtual ValueType* get(const KeyType& key)=0;
 
     /*
     根据key设置对应的value为新value，如果key不存在，会创建一个新的节点
     */
-    virtual void set(const KeyType& key,ValueType& value)=0;
+    virtual void set(const KeyType& key,const ValueType& value)=0;
 
     /*根据index找到目标的value*/
     virtual std::pair<KeyType&,ValueType&> findByIndex(const int index)=0;
@@ -36,6 +38,8 @@ public:
 
     /*得到大小*/
     virtual int size() const=0;
+
+    virtual std::string toString(int indent) const =0;
 
     virtual void print(std::string indent = "") const=0;
 };

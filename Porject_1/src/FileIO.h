@@ -64,6 +64,18 @@ class FileIO {
 
         file.close();
     }
+
+    static void writeFile(const std::string &filename, const std::string& data) {
+        std::ofstream file(filename);
+        if (!file.is_open()) {
+            std::cerr << "failed to write to file : " << filename << std::endl;
+            return;
+        }
+
+        file<<data;
+
+        file.close();
+    }
 };
 
 #endif
