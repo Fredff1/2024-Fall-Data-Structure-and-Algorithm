@@ -460,7 +460,7 @@ void BTree<KeyType, ValueType>::insertNotFull(TreeNode *node, const KeyType key,
         while (i >= 0 && key < node->getKeyAt(i)) {
             i--;
         }
-        node->insertKeyValueAt(i + 1, key, value); // 插入键值对
+        node->insertKeyValueAt(i + 1, key, value); // 叶节点直接插入
 
     } else {
         // 如果是非叶节点，找到合适的子节点
@@ -469,7 +469,7 @@ void BTree<KeyType, ValueType>::insertNotFull(TreeNode *node, const KeyType key,
         }
         i++;
 
-        // 如果子节点满了，先分裂
+        // 如果子节点满了，先分裂再插入
         if (node->getChildAt(i)->isFull()) {
             splitChild(node, i, node->getChildAt(i));
 
@@ -478,14 +478,14 @@ void BTree<KeyType, ValueType>::insertNotFull(TreeNode *node, const KeyType key,
             }
         }
 
-        insertNotFull(node->getChildAt(i), key, value); // 递归插入到子节点
+        insertNotFull(node->getChildAt(i), key, value); 
     }
-    node->updateSizes(); // 插入后更新子树大小
+    node->updateSizes(); 
 }
 
 template <typename KeyType, typename ValueType>
 bool BTree<KeyType, ValueType>::validateBTreeNode(TreeNode *node, int min_keys, int max_keys, int current_depth, std::set<int> &leaf_depths) const {
-    // 检查节点是否为空
+
     if (node == nullptr) {
         return true;
     }
@@ -493,13 +493,12 @@ bool BTree<KeyType, ValueType>::validateBTreeNode(TreeNode *node, int min_keys, 
     int key_count = node->getKeyNums();
     int child_count = node->childNums;
 
-    // 检查键值数是否在合法范围内
     if (key_count < min_keys || key_count > max_keys) {
         std::cerr << "节点的键值数量不合法：" << key_count << "node key为" << node->keys[0] << std::endl;
         return false;
     }
 
-    // 如果是叶节点，记录其深度
+
     if (node->isLeaf()) {
         leaf_depths.insert(current_depth);
         if (leaf_depths.size() > 1) {
@@ -507,13 +506,13 @@ bool BTree<KeyType, ValueType>::validateBTreeNode(TreeNode *node, int min_keys, 
             return false;
         }
     } else {
-        // 非叶节点：检查子节点数是否等于键值数加1
+
         if (child_count != key_count + 1) {
             std::cerr << "非叶节点的子节点数量不合法：" << child_count << "node key为" << node->keys[0] << std::endl;
             return false;
         }
 
-        // 检查键值是否有序
+
         for (int i = 1; i < key_count; i++) {
             if (node->getKeyAt(i - 1) >= node->getKeyAt(i)) {
                 std::cerr << "节点的键值顺序不正确：" << node->getKeyAt(i - 1) << " >= " << node->getKeyAt(i) << std::endl;
@@ -521,15 +520,15 @@ bool BTree<KeyType, ValueType>::validateBTreeNode(TreeNode *node, int min_keys, 
             }
         }
 
-        // 递归检查子节点
+       
         for (int i = 0; i < child_count; i++) {
-            // 左子节点的所有键必须小于当前节点的键值
+
             if (i == 0) {
                 if (!validateBTreeNode(node->getChildAt(i), min_keys, max_keys, current_depth + 1, leaf_depths)) {
                     return false;
                 }
             }
-            // 中间子节点
+           
             else if (i < key_count) {
                 if (node->getKeyAt(i - 1) >= node->getChildAt(i)->getKeyAt(0)) {
                     std::cerr << "子节点键值范围不正确：" << node->getKeyAt(i - 1) << " >= " << node->getChildAt(i)->getKeyAt(0) << std::endl;
@@ -539,7 +538,7 @@ bool BTree<KeyType, ValueType>::validateBTreeNode(TreeNode *node, int min_keys, 
                     return false;
                 }
             }
-            // 右子节点的所有键必须大于当前节点的键值
+           
             else {
                 if (!validateBTreeNode(node->getChildAt(i), min_keys, max_keys, current_depth + 1, leaf_depths)) {
                     return false;
@@ -557,12 +556,11 @@ std::pair<KeyType &, ValueType &> BTree<KeyType, ValueType>::findNodeByIndex(int
         throw std::runtime_error("The tree is empty!");
     }
 
-    // 检查索引是否超出范围
+
     if (index < 0 || index >= root->getTotalSize()) {
         throw std::out_of_range("Index out of range");
     }
-
-    // 从根节点开始查找
+    
     std::pair<BTreeNode<KeyType, ValueType> *, int> node_pair = findNodeByIndexHelper(root, index);
 
     TreeNode *node = node_pair.first;
@@ -576,30 +574,30 @@ std::pair<BTreeNode<KeyType, ValueType> *, int> BTree<KeyType, ValueType>::findN
         if (index < 0 || index >= node->getKeyNums()) {
             throw std::out_of_range("Error occured when searching");
         }
-        return {node, index}; // 返回节点和索引
+        return {node, index}; 
     } else {
         int currentIndex = 0;
 
-        // 遍历当前节点的每个键值和子节点
+        
         for (int i = 0; i < node->getKeyNums(); i++) {
             int leftTreeSize = node->getChildAt(i) ? node->getChildAt(i)->getTotalSize() : 0;
 
-            // 如果当前索引在左子树中，递归进入左子树
+            
             if (index < currentIndex + leftTreeSize) {
                 return findNodeByIndexHelper(node->getChildAt(i), index - currentIndex);
             }
 
-            // 索引指向当前节点的键值
+            
             currentIndex += leftTreeSize;
             if (index == currentIndex) {
-                return {node, i}; // 找到对应的键值
+                return {node, i}; 
             }
 
-            // 继续跳过当前节点的键值，递归进入右子树
+
             currentIndex++;
         }
 
-        // 查找最后一个子节点
+
         return findNodeByIndexHelper(node->getChildAt(node->getKeyNums()), index - currentIndex);
     }
 }
@@ -610,7 +608,6 @@ int BTree<KeyType, ValueType>::findIndexByKey(const KeyType &key) const {
         throw std::runtime_error("Tree is empty!");
     }
 
-    // 递归计算 key 在树中的全局索引
     return findIndexByKeyHelper(root, key, 0);
 }
 
@@ -620,12 +617,12 @@ int BTree<KeyType, ValueType>::findIndexByKeyHelper(TreeNode *node, const KeyTyp
     int leftSize = 0;
 
     for (int i = 0; i < node->getKeyNums(); i++) {
-        // 计算左子树的大小
+
         if (!node->isLeaf()) {
             leftSize = node->getChildAt(i) ? node->getChildAt(i)->getTotalSize() : 0;
         }
 
-        // 如果 key 小于当前节点的键值，递归查找左子树
+
         if (key < node->getKeyAt(i)) {
             if (!node->isLeaf()) {
                 return findIndexByKeyHelper(node->getChildAt(i), key, cumulativeIndex);
@@ -634,15 +631,15 @@ int BTree<KeyType, ValueType>::findIndexByKeyHelper(TreeNode *node, const KeyTyp
             }
         }
 
-        // 如果找到 key，返回当前计算出的全局索引
+
         if (key == node->getKeyAt(i)) {
-            return cumulativeIndex + leftSize; // 返回累积的全局索引
+            return cumulativeIndex + leftSize; 
         }
 
-        // 如果 key 大于当前键值，更新累计索引，查找右子树
-        cumulativeIndex += leftSize + 1; // 累加当前节点的键值数量
+     
+        cumulativeIndex += leftSize + 1; 
 
-        // 查找右子树
+
         if (!node->isLeaf() && i == node->getKeyNums() - 1) {
             return findIndexByKeyHelper(node->getChildAt(i + 1), key, cumulativeIndex);
         }
@@ -657,7 +654,7 @@ string BTree<KeyType, ValueType>::toStringHelper(TreeNode *node, int depth, bool
         return "";
     }
 
-    // 打印缩进
+
     for (int i = 0; i < depth - 1; i++) {
         oss << (isLastChild ? "    " : "|   ");
     }
@@ -666,7 +663,7 @@ string BTree<KeyType, ValueType>::toStringHelper(TreeNode *node, int depth, bool
         oss << (isLastChild ? "|___ " : "|--- ");
     }
 
-    // 打印节点中的键值
+
     oss << "[";
     for (int i = 0; i < node->getKeyNums(); i++) {
         oss << node->getKeyAt(i)<<": "<<node->getValueAt(i); // << " childNum: " << node->childNums;
@@ -676,7 +673,7 @@ string BTree<KeyType, ValueType>::toStringHelper(TreeNode *node, int depth, bool
     }
     oss << "]" << std::endl;
 
-    // 递归打印子节点
+
     if (!node->isLeaf()) {
         for (int i = 0; i < node->childNums; i++) {
             bool lastChild = (i == node->getKeyNums());

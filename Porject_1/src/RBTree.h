@@ -309,18 +309,18 @@ void RedBlackTree<KeyType, DataType>::insertFix(TreeNode *node) {
         } else if (node->getGrandParent() != nullptr && node->getParent()->isRightChild()) { // 对称处理，父节点是祖父的右子节点
             y = node->getUncleAunt();                                                        // 叔叔节点
 
-            if (y != NULLNode && y->getColor() == REDNODE) { // Case 1: 叔叔是红色
+            if (y != NULLNode && y->getColor() == REDNODE) { 
                 node->getParent()->setColor(BLACKNODE);
                 y->setColor(BLACKNODE);
                 node->getGrandParent()->setColor(REDNODE);
-                node = node->getGrandParent(); // 向上修复
+                node = node->getGrandParent(); 
             } else {
-                if (node->isLeftChild()) { // Case 2: 节点是左子节点
+                if (node->isLeftChild()) { 
                     node = node->getParent();
-                    rightRotate(node); // 预旋转
+                    rightRotate(node); 
                 }
 
-                // Case 3: 节点是右子节点
+                
                 node->getParent()->setColor(BLACKNODE);
                 node->getGrandParent()->setColor(REDNODE);
                 leftRotate(node->getGrandParent());
@@ -367,7 +367,7 @@ void RedBlackTree<KeyType, DataType>::deleteNode(const KeyType &key) {
         originalColor = successor->getColor();
         replaceNode = successor->getRight();
 
-        if (replaceNode->isNULLNode()) { // replaceNode为NULLNode，也需要额外暂时设置NULLnode的父亲方便得到兄弟进行fix
+        if (replaceNode->isNULLNode()) { // replaceNode为NULLNode，也需要额外暂时设置NULLnode的父亲方便得到兄弟节点进行fix
             replaceNode->setParent(successor->getParent());
         }
 
@@ -409,10 +409,10 @@ void RedBlackTree<KeyType, DataType>::deleteFix(TreeNode *node) {
             }
 
             if (sibling->getLeft()->isBlack() && sibling->getRight()->isBlack()) {
-                sibling->setColor(REDNODE); // case 2 变色，向上继续判断
+                sibling->setColor(REDNODE); // case 2  sibling以及他的儿子全黑，变色，向上继续判断
                 node = node->getParent();
             } else {
-                if (sibling->getRight()->isBlack()) { // case 3 右旋转化为case 4
+                if (sibling->getRight()->isBlack()) { // case 3 sibling黑，右黑左红右旋转化为case 4
                     sibling->getLeft()->setColor(BLACKNODE);
                     sibling->setColor(REDNODE);
                     rightRotate(sibling);

@@ -27,7 +27,9 @@ class DictApp {
     }
 
     void start() {
-
+        cout<<std::string(100,'-')<<"\n";
+        cout<<"Dictionary Starts"<<endl;
+        cout<<std::string(100,'-')<<"\n";
         while (isRunning) {
             std::wcout << L"Enter command: ";
 

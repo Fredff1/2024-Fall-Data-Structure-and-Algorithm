@@ -44,7 +44,7 @@ void test(MapType type){
 
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - totalStart);
-    cout <<"Total insert from 1_initial.txt took time " << duration.count() <<" microseconds"<< endl;
+    //cout <<"Total insert from 1_initial.txt took time " << duration.count() <<" microseconds"<< endl;
     cout << "The number of elements are " << dic.size() << endl;
 
     // Deletion process
@@ -67,7 +67,7 @@ void test(MapType type){
     }
     end = std::chrono::high_resolution_clock::now();
     duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    cout << "Total delete by 2_delete.txt took time " << duration.count()<<" microseconds" << endl;
+    //cout << "Total delete by 2_delete.txt took time " << duration.count()<<" microseconds" << endl;
 
     // Insert from 3_insert.txt
     cout << "Inserting elements from 3_insert.txt:" << endl;
@@ -90,7 +90,7 @@ void test(MapType type){
     }
     end = std::chrono::high_resolution_clock::now();
     duration =std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    cout << "Total insert by 3_insert.txt took time " << duration.count()<<" microseconds" << endl;
+    //cout << "Total insert by 3_insert.txt took time " << duration.count()<<" microseconds" << endl;
 
     cout<<split_str<<endl;
     cout<<"Analysis end"<<endl;
@@ -102,7 +102,7 @@ int main() {
     cout<<split_str<<endl;
     cout<<"Now testing RBTree\n";
     try{
-        //test(RB_TREEMAP_TYPE);
+        test(RB_TREEMAP_TYPE);
     }catch(std::exception& e){
         cout<<e.what();
     }
