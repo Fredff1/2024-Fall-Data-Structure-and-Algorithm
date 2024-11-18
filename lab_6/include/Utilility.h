@@ -1,16 +1,14 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <chrono>
+#include <functional>
 #include <iostream>
 #include <random>
 #include <string>
-#include <type_traits>
-#include <vector>
-#include <chrono>
-#include <functional>
 #include <tuple>
 #include <type_traits>
-
+#include <vector>
 
 using std::cin;
 using std::cout;
@@ -60,21 +58,21 @@ class RandomGenerator {
 };
 
 template <typename Func, typename Obj, typename... Args>
-auto measure_time(Func func, Obj&& obj, Args&&... args) -> std::conditional_t<std::is_void_v<decltype(std::invoke(func, std::forward<Obj>(obj), std::forward<Args>(args)...))>, std::tuple<double>, std::tuple<decltype(std::invoke(func, std::forward<Obj>(obj), std::forward<Args>(args)...)), double>> {
+auto measure_time(Func func, Obj &&obj, Args &&...args) -> std::conditional_t<std::is_void_v<decltype(std::invoke(func, std::forward<Obj>(obj), std::forward<Args>(args)...))>, std::tuple<double>, std::tuple<decltype(std::invoke(func, std::forward<Obj>(obj), std::forward<Args>(args)...)), double>> {
     auto start = std::chrono::high_resolution_clock::now();
 
     // 如果返回类型是 void
     if constexpr (std::is_void_v<decltype(std::invoke(func, std::forward<Obj>(obj), std::forward<Args>(args)...))>) {
-        std::invoke(func, std::forward<Obj>(obj), std::forward<Args>(args)...);  // 调用成员函数或普通函数
+        std::invoke(func, std::forward<Obj>(obj), std::forward<Args>(args)...); // 调用成员函数或普通函数
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start;
-        return std::make_tuple(duration.count());  // 返回执行时间
+        return std::make_tuple(duration.count()); // 返回执行时间
     } else {
         // 如果有返回值
         auto result = std::invoke(func, std::forward<Obj>(obj), std::forward<Args>(args)...);
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start;
-        return std::make_tuple(result, duration.count());  // 返回结果和执行时间
+        return std::make_tuple(result, duration.count()); // 返回结果和执行时间
     }
 }
 
