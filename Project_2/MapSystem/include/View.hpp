@@ -1,0 +1,5 @@
+#ifndef VIEW_HPP
+#define VIEW_HPP
+
+
+#endif /* F0C98FE3_6EA2_41DD_87A2_BCF91456C0BE */

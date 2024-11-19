@@ -18,9 +18,9 @@ template <typename DataType = std::monostate>
 class Vertex {
   private:
     int id;
-    int weight; // 顶点的权重
+    int weight; 
     bool hasWeight = false;
-    std::optional<DataType> data; // 顶点的附加数据，使用std::optional来支持可选性
+    std::optional<DataType> data; 
 
   public:
     Vertex() : id(-1), weight(0) {
@@ -82,53 +82,49 @@ class Edge {
     int weight;
 
   public:
-    // 完整构造函数，包含顶点、权重和方向
+
     Edge(Vertex<DataType> &first, Vertex<DataType> &second, int weight, bool isDirect) : first(&first), second(&second), weight(weight), isDirect(isDirect) {
     }
 
-    // 构造函数，包含顶点和权重，默认为无向边
     Edge(Vertex<DataType> &first, Vertex<DataType> &second, int weight) : first(&first), second(&second), weight(weight), isDirect(false) {
     }
 
-    // 构造函数，包含顶点和方向，权重默认为1
     Edge(Vertex<DataType> &first, Vertex<DataType> &second, bool isDirect) : first(&first), second(&second), weight(1), isDirect(isDirect) {
     }
 
-    // 构造函数，仅包含顶点，默认权重为1，默认为无向边
     Edge(Vertex<DataType> &first, Vertex<DataType> &second) : first(&first), second(&second), weight(1), isDirect(false) {
     }
 
-    // 获取起点
+
     Vertex<DataType> *getFirst() const {
         return first;
     }
 
-    // 获取终点
+
     Vertex<DataType> *getSecond() const {
         return second;
     }
 
-    // 获取边的权重
+
     int getWeight() const {
         return weight;
     }
 
-    // 获取是否为有向边
+
     bool getIsDirect() const {
         return isDirect;
     }
 
-    // 设置权重
+
     void setWeight(int newWeight) {
         weight = newWeight;
     }
 
-    // 设置方向
+
     void setIsDirect(bool direction) {
         isDirect = direction;
     }
 
-    // 重载输出运算符，便于调试
     friend std::ostream &operator<<(std::ostream &os, const Edge &edge) {
         os << "Edge(" << edge.first.id << " -> " << edge.second.id << ", Weight: " << edge.weight << ", Directed: " << (edge.isDirect ? "Yes" : "No") << ")";
         return os;
@@ -334,18 +330,18 @@ class Graph {
     void deleteVertex(int vertexId) {
         if (vertexId < 0 || vertexId >= verticesNum) return;
 
-        // 删除邻接表中的边
+        
         if (hasAdjList) {
-            // 移除与该顶点相关的所有边
+            
             adjList[vertexId].clear();
             for (auto &neighbors : adjList) {
                 neighbors.remove_if([vertexId](const auto &pair) { return pair.first->getId() == vertexId; });
             }
 
-            // 从 `adjList` 中删除该顶点的条目
+           
             adjList.erase(adjList.begin() + vertexId);
 
-            // 更新所有后续顶点的 ID 并修正指向
+           
             for (int i = vertexId; i < adjList.size(); ++i) {
                 for (auto &pair : adjList[i]) {
                     if (pair.first->getId() > vertexId) {
@@ -355,20 +351,19 @@ class Graph {
             }
         }
 
-        // 删除邻接矩阵中的边
         if (hasAdjMatrix) {
-            // 从矩阵中删除该行和该列
+           
             adjMatrix.erase(adjMatrix.begin() + vertexId);
             for (auto &row : adjMatrix) {
                 row.erase(row.begin() + vertexId);
             }
         }
 
-        // 从顶点列表中删除该顶点并更新顶点计数
+        
         vertexVec.erase(vertexVec.begin() + vertexId);
         --verticesNum;
 
-        // 更新剩余顶点的 ID
+        
         for (int i = vertexId; i < verticesNum; ++i) {
             vertexVec[i].setId(i);
         }

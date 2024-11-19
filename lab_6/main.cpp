@@ -28,7 +28,7 @@ void test_1(){
     
     Graph<> graph=Graph<>(true,false,GraphRepresentationType::LIST_FORM,edges,vertex);
     int longest=graph.longestPath();
-    cout<<"Longest: "<<longest<<endl;
+    cout<<"Longest for graph 1: "<<longest<<endl;
 }
 
 void test_2(){
@@ -50,7 +50,7 @@ void test_2(){
     
     Graph<> graph=Graph<>(true,false,GraphRepresentationType::LIST_FORM,edges,vertex);
     int longest=graph.longestPath();
-    cout<<"Longest: "<<longest<<endl;
+    cout<<"Longest for graph 2: "<<longest<<endl;
    
 }
 
@@ -73,7 +73,7 @@ void test_3(){
     
     Graph<> graph=Graph<>(true,false,GraphRepresentationType::LIST_FORM,edges,vertex);
     int longest=graph.longestPath();
-    cout<<"Longest: "<<longest<<endl;
+    cout<<"Longest for graph 3: "<<longest<<endl;
 }
 
 void test_4(){
@@ -100,7 +100,7 @@ void test_4(){
     
     Graph<> graph=Graph<>(true,false,GraphRepresentationType::LIST_FORM,edges,vertex);
     int longest=graph.longestPath();
-    cout<<"Longest: "<<longest<<endl;
+    cout<<"Longest for graph 4: "<<longest<<endl;
 }
 
 

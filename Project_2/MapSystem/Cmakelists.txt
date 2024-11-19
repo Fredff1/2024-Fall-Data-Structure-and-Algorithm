@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 3.16)
+project(MyQtProject VERSION 1.0 LANGUAGES CXX)
+
+# 设置 C++ 标准
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+# 手动指定 Qt6Widgets 的路径（确保路径正确）
+set(Qt6Widgets_DIR "D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/lib/cmake/Qt6Widgets")
+set(CMAKE_PREFIX_PATH "D:/Code/Cpp/libs/Qt/6.8.0/mingw_64")
+
+
+
+# 查找 Qt6 并加载 Widgets 模块
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+
+include_directories(${CMAKE_SOURCE_DIR}/include)
+file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+
+# 添加可执行文件
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+# 链接 Qt Widgets 模块
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
+
+# 设置输出目录（可选）
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+
+set(RESOURCE_DIR "${CMAKE_BINARY_DIR}/bin/resources")
+
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_SOURCE_DIR}/resources"
+    "${RESOURCE_DIR}"
+)
