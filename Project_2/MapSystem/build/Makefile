@@ -128,43 +128,6 @@ MyQtProject/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/build
 .PHONY : MyQtProject/fast
 
-#=============================================================================
-# Target rules for targets named MyQtProject_autogen
-
-# Build rule for target.
-MyQtProject_autogen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 MyQtProject_autogen
-.PHONY : MyQtProject_autogen
-
-# fast build rule for target.
-MyQtProject_autogen/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject_autogen.dir\build.make CMakeFiles/MyQtProject_autogen.dir/build
-.PHONY : MyQtProject_autogen/fast
-
-MyQtProject_autogen/mocs_compilation.obj: MyQtProject_autogen/mocs_compilation.cpp.obj
-.PHONY : MyQtProject_autogen/mocs_compilation.obj
-
-# target to build an object file
-MyQtProject_autogen/mocs_compilation.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.obj
-.PHONY : MyQtProject_autogen/mocs_compilation.cpp.obj
-
-MyQtProject_autogen/mocs_compilation.i: MyQtProject_autogen/mocs_compilation.cpp.i
-.PHONY : MyQtProject_autogen/mocs_compilation.i
-
-# target to preprocess a source file
-MyQtProject_autogen/mocs_compilation.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.i
-.PHONY : MyQtProject_autogen/mocs_compilation.cpp.i
-
-MyQtProject_autogen/mocs_compilation.s: MyQtProject_autogen/mocs_compilation.cpp.s
-.PHONY : MyQtProject_autogen/mocs_compilation.s
-
-# target to generate assembly for a file
-MyQtProject_autogen/mocs_compilation.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.s
-.PHONY : MyQtProject_autogen/mocs_compilation.cpp.s
-
 src/Model.obj: src/Model.cpp.obj
 .PHONY : src/Model.obj
 
@@ -221,11 +184,7 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... MyQtProject_autogen
 	@echo ... MyQtProject
-	@echo ... MyQtProject_autogen/mocs_compilation.obj
-	@echo ... MyQtProject_autogen/mocs_compilation.i
-	@echo ... MyQtProject_autogen/mocs_compilation.s
 	@echo ... src/Model.obj
 	@echo ... src/Model.i
 	@echo ... src/Model.s

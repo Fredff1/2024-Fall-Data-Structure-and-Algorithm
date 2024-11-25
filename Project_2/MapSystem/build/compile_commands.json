@@ -1,19 +1,13 @@
 [
 {
   "directory": "D:/Code/Cpp/2024 Fall Data Structure Code/Project_2/MapSystem/build",
-  "command": "D:\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/MyQtProject.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\MyQtProject.dir\\MyQtProject_autogen\\mocs_compilation.cpp.obj -c \"D:\\Code\\Cpp\\2024 Fall Data Structure Code\\Project_2\\MapSystem\\build\\MyQtProject_autogen\\mocs_compilation.cpp\"",
-  "file": "D:/Code/Cpp/2024 Fall Data Structure Code/Project_2/MapSystem/build/MyQtProject_autogen/mocs_compilation.cpp",
-  "output": "CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.obj"
-},
-{
-  "directory": "D:/Code/Cpp/2024 Fall Data Structure Code/Project_2/MapSystem/build",
-  "command": "D:\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/MyQtProject.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\MyQtProject.dir\\src\\Model.cpp.obj -c \"D:\\Code\\Cpp\\2024 Fall Data Structure Code\\Project_2\\MapSystem\\src\\Model.cpp\"",
+  "command": "D:\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:\\Code\\Cpp\\2024FA~1\\PROJEC~1\\MAPSYS~1\\include -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\include\\QtWidgets -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\include -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\include\\QtCore -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\mkspecs\\win32-g++ -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\include\\QtGui -g -std=gnu++17 -pthread -o CMakeFiles\\MyQtProject.dir\\src\\Model.cpp.obj -c \"D:\\Code\\Cpp\\2024 Fall Data Structure Code\\Project_2\\MapSystem\\src\\Model.cpp\"",
   "file": "D:/Code/Cpp/2024 Fall Data Structure Code/Project_2/MapSystem/src/Model.cpp",
   "output": "CMakeFiles/MyQtProject.dir/src/Model.cpp.obj"
 },
 {
   "directory": "D:/Code/Cpp/2024 Fall Data Structure Code/Project_2/MapSystem/build",
-  "command": "D:\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 @CMakeFiles/MyQtProject.dir/includes_CXX.rsp -g -std=gnu++17 -pthread -o CMakeFiles\\MyQtProject.dir\\src\\main.cpp.obj -c \"D:\\Code\\Cpp\\2024 Fall Data Structure Code\\Project_2\\MapSystem\\src\\main.cpp\"",
+  "command": "D:\\mingw64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:\\Code\\Cpp\\2024FA~1\\PROJEC~1\\MAPSYS~1\\include -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\include\\QtWidgets -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\include -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\include\\QtCore -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\mkspecs\\win32-g++ -isystem D:\\Code\\Cpp\\libs\\Qt\\6.8.0\\mingw_64\\include\\QtGui -g -std=gnu++17 -pthread -o CMakeFiles\\MyQtProject.dir\\src\\main.cpp.obj -c \"D:\\Code\\Cpp\\2024 Fall Data Structure Code\\Project_2\\MapSystem\\src\\main.cpp\"",
   "file": "D:/Code/Cpp/2024 Fall Data Structure Code/Project_2/MapSystem/src/main.cpp",
   "output": "CMakeFiles/MyQtProject.dir/src/main.cpp.obj"
 }

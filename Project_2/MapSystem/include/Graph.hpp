@@ -11,6 +11,11 @@
 #include <variant>
 #include <vector>
 
+#include <memory>
+
+using std::shared_ptr;
+using std::unique_ptr;
+
 using std::list;
 using std::pair;
 using std::tuple;
@@ -21,27 +26,23 @@ template <typename DataType = std::monostate>
 class Vertex {
   private:
     int id;
-    int weight; 
+    int weight;
     bool hasWeight = false;
-    std::optional<DataType> data; 
+    std::optional<DataType> data;
 
   public:
     Vertex() : id(-1), weight(0) {
     }
-
     Vertex(int id) : id(id), weight(0) {
     }
-
     Vertex(int id, int weight) : id(id), weight(weight), hasWeight(true) {
     }
-
-    Vertex(int id, int weight, DataType& data) : id(id), weight(weight), hasWeight(true), data(data) {
+    Vertex(int id, int weight, const DataType &data) : id(id), weight(weight), hasWeight(true), data(data) {
     }
 
     int getId() const {
         return id;
     }
-
     void setId(int id) {
         this->id = id;
     }
@@ -49,7 +50,6 @@ class Vertex {
     int getWeight() const {
         return weight;
     }
-
     void setWeight(int newWeight) {
         weight = newWeight;
     }
@@ -57,7 +57,6 @@ class Vertex {
     std::optional<DataType> getData() const {
         return data;
     }
-
     void setData(const DataType &newData) {
         data = newData;
     }
@@ -65,14 +64,10 @@ class Vertex {
     friend std::ostream &operator<<(std::ostream &os, const Vertex &vertex) {
         os << "Vertex(ID: " << vertex.id;
         if (vertex.hasWeight) {
-            cout << ", vertex weight: " << vertex.weight;
+            os << ", Weight: " << vertex.weight;
         }
         os << ")";
         return os;
-    }
-
-    template <typename U>
-    Vertex(const Vertex<U> &other) : id(other.getId()), weight(other.getWeight()) {
     }
 };
 
@@ -80,400 +75,220 @@ template <typename DataType = std::monostate>
 class Edge {
   private:
     bool isDirect = false;
-    Vertex<DataType> *first;
-    Vertex<DataType> *second;
+    std::shared_ptr<Vertex<DataType>> first;
+    std::shared_ptr<Vertex<DataType>> second;
     double weight;
 
   public:
-
-    Edge(Vertex<DataType> &first, Vertex<DataType> &second, double weight, bool isDirect) : first(&first), second(&second), weight(weight), isDirect(isDirect) {
+    Edge(std::shared_ptr<Vertex<DataType>> first, std::shared_ptr<Vertex<DataType>> second, double weight, bool isDirect) : first(std::move(first)), second(std::move(second)), weight(weight), isDirect(isDirect) {
     }
 
-    Edge(Vertex<DataType> &first, Vertex<DataType> &second, double weight) : first(&first), second(&second), weight(weight), isDirect(false) {
+    Edge(std::shared_ptr<Vertex<DataType>> first, std::shared_ptr<Vertex<DataType>> second, double weight) : first(std::move(first)), second(std::move(second)), weight(weight), isDirect(false) {
     }
 
-    Edge(Vertex<DataType> &first, Vertex<DataType> &second, bool isDirect) : first(&first), second(&second), weight(1), isDirect(isDirect) {
+    Edge(std::shared_ptr<Vertex<DataType>> first, std::shared_ptr<Vertex<DataType>> second, bool isDirect) : first(std::move(first)), second(std::move(second)), weight(1), isDirect(isDirect) {
     }
 
-    Edge(Vertex<DataType> &first, Vertex<DataType> &second) : first(&first), second(&second), weight(1), isDirect(false) {
+    Edge(std::shared_ptr<Vertex<DataType>> first, std::shared_ptr<Vertex<DataType>> second) : first(std::move(first)), second(std::move(second)), weight(1), isDirect(false) {
     }
 
-
-    Vertex<DataType> *getFirst() const {
+    std::shared_ptr<Vertex<DataType>> getFirst() const {
         return first;
     }
-
-
-    Vertex<DataType> *getSecond() const {
+    std::shared_ptr<Vertex<DataType>> getSecond() const {
         return second;
     }
-
-
     double getWeight() const {
         return weight;
     }
-
-
     bool getIsDirect() const {
         return isDirect;
     }
 
-
     void setWeight(double newWeight) {
         weight = newWeight;
     }
-
-
     void setIsDirect(bool direction) {
         isDirect = direction;
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Edge &edge) {
-        os << "Edge(" << edge.first.id << " -> " << edge.second.id << ", Weight: " << edge.weight << ", Directed: " << (edge.isDirect ? "Yes" : "No") << ")";
+        os << "Edge(" << edge.first->getId() << " -> " << edge.second->getId() << ", Weight: " << edge.weight << ", Directed: " << (edge.isDirect ? "Yes" : "No") << ")";
         return os;
     }
 };
 
 template <typename DataType = std::monostate>
 class Graph {
+  private:
     using EdgeType = Edge<DataType>;
     using VertexType = Vertex<DataType>;
 
-  private:
-    int verticesNum; // num of nodes
-    bool isDirect;   // has direction
+    int verticesNum; // Number of nodes
+    bool isDirect;   // Directed or not
     GraphRepresentationType rep;
 
-    vector<VertexType> vertexVec;
-    vector<list<pair<VertexType *, double>>> adjList; // Adjacency List
-    vector<std::vector<double>> adjMatrix;            // Adjacency Matrix
+    std::vector<std::shared_ptr<VertexType>> vertexVec;
+    std::vector<std::shared_ptr<EdgeType>> edgeVec;
+    std::vector<std::list<std::shared_ptr<EdgeType>>> adjList; // Adjacency List
+    std::vector<std::vector<double>> adjMatrix;                // Adjacency Matrix
 
     bool hasAdjList = false;
     bool hasAdjMatrix = false;
     bool hasEdgeWeight = false;
 
-    void dfsHelper(VertexType* v,vector<bool>& visited,vector<int>& result){
-        visited[v->getId()]=true;
-        for(const pair<VertexType *, int>&target:adjList[v->getId()]){
-            VertexType * neighbor=target.first;
-            int weight=target.second;
-            if(!visited[neighbor->getId()]){
-                dfsHelper(neighbor,visited,result);
+    void dfsHelper(const std::shared_ptr<VertexType> &v, std::vector<bool> &visited, std::vector<int> &result) {
+        visited[v->getId()] = true;
+        for (const auto &edge : adjList[v->getId()]) {
+            auto neighbor = edge->getSecond();
+            if (!visited[neighbor->getId()]) {
+                dfsHelper(neighbor, visited, result);
             }
         }
         result.push_back(v->getId());
     }
 
-    bool dfsUtilForCycle(VertexType* v, std::vector<bool>& visited, std::vector<bool>& recStack) {
-        int id = v->getId();
-
-        visited[id] = true;   
-        recStack[id] = true;  
-
-
-        for (const auto& [neighbor, weight] : adjList[id]) {
-            int neighborId = neighbor->getId();
-
-            if (!visited[neighborId]) {
-                if (dfsUtilForCycle(neighbor, visited, recStack)) {
-                    return true; 
-                }
-            }
-
-            else if (recStack[neighborId]) {
-                return true; 
-            }
-        }
-
-        recStack[id] = false;  
-        return false;
-    }
-
-    
   public:
-
-    const vector<VertexType>& getVertices() const{
-        return vertexVec;
-    }
-
-    const vector<list<pair<VertexType *, int>>>& getAdjList() const{
-        return adjList;
-    }
-
-    const vector<std::vector<double>>& getAdjMatrix() const{
-        return adjMatrix;
-    }
-
-    bool isDirectGraph() const{
-        return isDirect;
-    }
-
-    GraphRepresentationType getRepresentation() const{
-        return rep;
-    }
-
-    int getVerticesNum() const{
-        return verticesNum;
-    }
-
-
-
-    Graph(bool isDirect, bool hasEdgeWeight, GraphRepresentationType rep, vector<EdgeType> &edges, vector<VertexType> &vertexVec) : verticesNum(vertexVec.size()), hasEdgeWeight(hasEdgeWeight), isDirect(isDirect), rep(rep), vertexVec(vertexVec) {
-
+    Graph(bool isDirect, bool hasEdgeWeight, GraphRepresentationType rep, std::vector<std::shared_ptr<EdgeType>> edges, std::vector<std::shared_ptr<VertexType>> vertices) : verticesNum(vertices.size()), isDirect(isDirect), rep(rep), hasEdgeWeight(hasEdgeWeight), vertexVec(std::move(vertices)), edgeVec(std::move(edges)) {
         if (rep == GraphRepresentationType::MATRIX_FORM) {
-            initAdjMatrix(edges, verticesNum);
+            initAdjMatrix(edgeVec, verticesNum);
             hasAdjMatrix = true;
         } else if (rep == GraphRepresentationType::LIST_FORM) {
-            initAdjList(edges, verticesNum);
+            initAdjList(edgeVec, verticesNum);
             hasAdjList = true;
         }
     }
 
-    void initId() {
-        int idCount = 0;
-        for (VertexType &vertex : vertexVec) {
-            vertex.setId(idCount);
-            idCount++;
-        }
-    }
-
-    void initAdjList(vector<EdgeType> &edges, int verticesNum) {
+    void initAdjList(const std::vector<std::shared_ptr<EdgeType>> &edges, int verticesNum) {
         adjList.resize(verticesNum);
-        for (const EdgeType &edge : edges) {
-            VertexType u = *edge.getFirst();
-            VertexType v = *edge.getSecond();
-            double weight = edge.getWeight();
-            list<pair<VertexType *, double>> &target_list = adjList[u.getId()];
-            target_list.push_back({edge.getSecond(), weight});
+        for (const auto &edge : edges) {
+            adjList[edge->getFirst()->getId()].push_back(edge);
+            if (!isDirect) {
+                adjList[edge->getSecond()->getId()].push_back(std::make_shared<EdgeType>(edge->getSecond(), edge->getFirst(), edge->getWeight()));
+            }
         }
     }
 
-    void initAdjMatrix(vector<EdgeType> &edges, int verticesNum) {
+    void initAdjMatrix(const std::vector<std::shared_ptr<EdgeType>> &edges, int verticesNum) {
         adjMatrix.resize(verticesNum, std::vector<double>(verticesNum, 0));
-        for (const EdgeType &edge : edges) {
-            VertexType u = *edge.getFirst();
-            VertexType v = *edge.getSecond();
-            double weight = edge.getWeight();
-            if (!hasEdgeWeight) {
-                weight = 1;
+        for (const auto &edge : edges) {
+            adjMatrix[edge->getFirst()->getId()][edge->getSecond()->getId()] = edge->getWeight();
+            if (!isDirect) {
+                adjMatrix[edge->getSecond()->getId()][edge->getFirst()->getId()] = edge->getWeight();
             }
-            adjMatrix[u.getId()][v.getId()] = weight;
         }
     }
 
-    std::vector<int> dfs(VertexType* start){
-        if (!hasAdjList) {
-            throw std::runtime_error("Adjacency list representation is required for DFS.");
-        }
-
-        std::vector<bool> visited(verticesNum+1, false); 
-        std::vector<int> result;                     
-
-
-        dfsHelper(start, visited, result);
-
-
-        return result;
-    }
-
-    int longestPath(VertexType* start){
-        if (!hasAdjList) {
-            throw std::runtime_error("Adjacency list representation is required for longest path computation.");
-        }
-
-        vector<int> topOrder=dfs(start);
-        std::reverse(topOrder.begin(),topOrder.end());
-
-        vector<int> distance(verticesNum,INT_MIN);
-        distance[start->getId()]=start->getWeight();
-
-        for(int id:topOrder){
-            if(distance[id]!=INT_MIN){
-                for (const auto& [neighbor, weight] : adjList[id]) {
-                    int vId = neighbor->getId();
-                    int vertexWeight=neighbor->getWeight();
-                    distance[vId] = std::max(distance[vId], distance[id] + vertexWeight);
-                }
-            }
-        }
-        int longestPath = INT_MIN;
-        for (int d : distance) {
-            if (d != INT_MIN) {
-                longestPath = std::max(longestPath, d);
-            }
-        }
-
-        return longestPath;
-    }
-
-    int longestPath(){
-        vector<int> longestPaths;
-        for(VertexType&vertex:vertexVec){
-            int longest_path=longestPath(&vertex);
-            longestPaths.push_back(longest_path);
-        }
-        int longestPath = INT_MIN;
-        for (int d : longestPaths) {
-            if (d != INT_MIN) {
-                longestPath = std::max(longestPath, d);
-            }
-        }
-
-        return longestPath;
-    }
-
-    bool hasCircle(){
-        if(vertexVec.size()<1){
-            return false;
-        }
-
-        vector<bool> visited(verticesNum, false); 
-        vector<bool> recStack(verticesNum, false); 
-
-        for (auto& vertex : vertexVec) {
-            if (!visited[vertex.getId()]) {
-                if (dfsUtilForCycle(&vertex, visited, recStack)) {
-                    return true; 
-                }
-            }
-        }
-
-        return false; 
-    }
-
-    void addVertex(VertexType &vertex) {
-        vertex.setId(verticesNum++);
+    void addVertex(const std::shared_ptr<VertexType> &vertex) {
+        vertex->setId(verticesNum++);
         vertexVec.push_back(vertex);
         adjList.resize(verticesNum);
         if (hasAdjMatrix) {
             for (auto &row : adjMatrix) {
                 row.resize(verticesNum, 0);
             }
-            adjMatrix.push_back(vector<double>(verticesNum, 0));
-        }
-
-        if (hasAdjList) {
-            adjMatrix.emplace_back(verticesNum, 0);
+            adjMatrix.push_back(std::vector<double>(verticesNum, 0));
         }
     }
 
-    void deleteVertex(int vertexId) {
-        if (vertexId < 0 || vertexId >= verticesNum) return;
+    void addEdge(const std::shared_ptr<VertexType> &u, const std::shared_ptr<VertexType> &v, double weight) {
+        auto newEdge = std::make_shared<EdgeType>(u, v, weight, isDirect);
+        edgeVec.push_back(newEdge);
 
-        
         if (hasAdjList) {
-            
-            adjList[vertexId].clear();
-            for (auto &neighbors : adjList) {
-                neighbors.remove_if([vertexId](const auto &pair) { return pair.first->getId() == vertexId; });
-            }
-
-           
-            adjList.erase(adjList.begin() + vertexId);
-
-           
-            for (int i = vertexId; i < adjList.size(); ++i) {
-                for (auto &pair : adjList[i]) {
-                    if (pair.first->getId() > vertexId) {
-                        pair.first->setId(pair.first->getId() - 1);
-                    }
-                }
-            }
-        }
-
-        if (hasAdjMatrix) {
-           
-            adjMatrix.erase(adjMatrix.begin() + vertexId);
-            for (auto &row : adjMatrix) {
-                row.erase(row.begin() + vertexId);
-            }
-        }
-
-        
-        vertexVec.erase(vertexVec.begin() + vertexId);
-        --verticesNum;
-
-        
-        for (int i = vertexId; i < verticesNum; ++i) {
-            vertexVec[i].setId(i);
-        }
-    }
-
-    void addEdge(VertexType *u, VertexType *v, double weight) {
-        if (hasAdjList) {
-            adjList[u->getId()].emplace_back(v, weight);
+            adjList[u->getId()].push_back(newEdge);
             if (!isDirect) {
-                adjList[v->getId()].emplace_back(u, weight);
+                adjList[v->getId()].push_back(std::make_shared<EdgeType>(v, u, weight));
             }
-        } else if (hasAdjMatrix) {
+        }
+        if (hasAdjMatrix) {
             adjMatrix[u->getId()][v->getId()] = weight;
-            if (!hasEdgeWeight) {
-                weight = 1;
-            }
             if (!isDirect) {
                 adjMatrix[v->getId()][u->getId()] = weight;
             }
         }
     }
 
-    void deleteEdge(VertexType *u, VertexType *v) {
-        if (hasAdjList) {
-            adjList[u->getId()].remove_if([v](const auto &pair) { return pair.first == v; });
-            if (!isDirect) {
-                adjList[v->getId()].remove_if([u](const auto &pair) { return pair.first == u; });
-            }
-        } else if (hasAdjMatrix) {
-            adjMatrix[u->getId()][v->getId()] = 0;
-            if (!isDirect) {
-                adjMatrix[v->getId()][u->getId()] = 0;
-            }
+    std::vector<int> dfs(const std::shared_ptr<VertexType> &start) {
+        if (!hasAdjList) {
+            throw std::runtime_error("Adjacency list representation is required for DFS.");
         }
+
+        std::vector<bool> visited(verticesNum, false);
+        std::vector<int> result;
+
+        dfsHelper(start, visited, result);
+
+        return result;
     }
 
     void printAdjList() const {
-        for (int i = 0; i < verticesNum; i++) {
-            const std::list<pair<VertexType *, double>> &targetList = adjList[i];
-
-            const VertexType &targetVertex = vertexVec[i];
-            cout << targetVertex;
-            for (const pair<VertexType *, double> &target_pair : targetList) {
-                cout << " -> " << *target_pair.first;
+        for (size_t i = 0; i < adjList.size(); ++i) {
+            std::cout << *vertexVec[i];
+            for (const auto &edge : adjList[i]) {
+                std::cout << " -> " << *edge->getSecond();
                 if (hasEdgeWeight) {
-                    cout << ", edge weight:" << target_pair.second;
+                    std::cout << " (weight: " << edge->getWeight() << ")";
                 }
             }
-            cout << "\n";
+            std::cout << "\n";
         }
     }
 
     void printAdjMatrix() const {
-        for (int i = 0; i < verticesNum; i++) {
-            for (int j = 0; j < verticesNum; j++) {
-                double num = adjMatrix[i][j];
-                cout << num << " ";
+        for (const auto &row : adjMatrix) {
+            for (const auto &val : row) {
+                std::cout << val << " ";
             }
-            cout << "\n";
+            std::cout << "\n";
         }
     }
 
-    static vector<Vertex<>> convertFromWeight(vector<double>& weight){
-        vector<Vertex<>> result;
-        for(int i=0;i<weight.size();i++){
-            result.push_back(Vertex<>(i,weight[i]));
-        }
-        return result;
+    // 获取所有顶点
+    std::vector<std::shared_ptr<VertexType>> getVertices() const {
+        return vertexVec;
     }
 
-    static vector<Edge<>> convertFromMatrix(vector<Vertex<>>& vertex,vector<vector<int>>& edges){
-        vector<Edge<>> result;
-        for(int i=0;i<edges.size();i++){
-            for(int j=0;j<edges[i].size();j++){
-                if(edges[i][j]>0){
-                    result.push_back(Edge<>(vertex[i],vertex[j],edges[i][j]));
-                }
+    // 获取所有边
+    std::vector<std::shared_ptr<EdgeType>> getEdges() const {
+        return edgeVec;
+    }
+
+    // 获取邻接表
+    std::vector<std::list<std::shared_ptr<EdgeType>>> getAdjList() const {
+        if (!hasAdjList) {
+            throw std::runtime_error("Adjacency list representation is not initialized.");
+        }
+        return adjList;
+    }
+
+    // 获取邻接矩阵
+    std::vector<std::vector<double>> getAdjMatrix() const {
+        if (!hasAdjMatrix) {
+            throw std::runtime_error("Adjacency matrix representation is not initialized.");
+        }
+        return adjMatrix;
+    }
+
+    // 获取指定顶点
+    std::shared_ptr<VertexType> getVertex(int id) const {
+        if (id < 0 || id >= verticesNum) {
+            throw std::out_of_range("Vertex ID is out of range.");
+        }
+        return vertexVec[id];
+    }
+
+    // 获取指定边
+    std::shared_ptr<EdgeType> getEdge(int fromId, int toId) const {
+        if (!hasAdjList) {
+            throw std::runtime_error("Adjacency list representation is required to get an edge.");
+        }
+        for (const auto &edge : adjList[fromId]) {
+            if (edge->getSecond()->getId() == toId) {
+                return edge;
             }
         }
-        return result;
+        throw std::runtime_error("Edge not found.");
     }
 };
 

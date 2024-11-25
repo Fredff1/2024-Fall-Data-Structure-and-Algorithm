@@ -2,120 +2,90 @@
 #define GRAPH_ALGORITHM_HPP
 
 #include "Graph.hpp"
-#include <queue>
 #include <limits>
+#include <queue>
 
 template <typename DataType = std::monostate>
 class GraphAlgorithms {
   private:
-    const Graph<DataType>& graph; // 组合：使用现有的 Graph 类
+    const Graph<DataType> &graph; // 组合：使用现有的 Graph 类
 
   public:
-    explicit GraphAlgorithms(const Graph<DataType>& g) : graph(g) {}
+    explicit GraphAlgorithms(const Graph<DataType> &g) : graph(g) {
+    }
+    using distAndId = pair<double, int>;
 
-    // Dijkstra 算法：计算从源点到所有点的最短路径
-    std::vector<int> dijkstra(int sourceId) const {
-        const auto& adjList = graph.getAdjList();
-        const int verticesNum = graph.getVerticesNum();
-
-        // 距离数组，初始为无穷大
-        std::vector<int> distances(verticesNum, std::numeric_limits<int>::max());
+    vector<vector<int>> dijkstra(int sourceId) {
+        vector<double> distances(graph.getVertices().size(), INT_MAX);
         distances[sourceId] = 0;
 
-        // 优先队列 (min-heap)
-        using PII = std::pair<int, int>; // {distance, vertexId}
-        std::priority_queue<PII, std::vector<PII>, std::greater<>> pq;
-        pq.emplace(0, sourceId);
+        // prev 用于存储前驱节点列表，以便追踪最短路径
+        std::unordered_map<int, vector<int>> prev;
+        for (int i = 0; i < graph.getVertices().size(); i++) {
+            prev[i] = {};
+        }
+
+        // 使用优先队列来追踪最短距离的节点，最小堆
+        std::priority_queue<distAndId, vector<distAndId>, std::greater<>> pq;
+        pq.push({0, sourceId});
+
+        auto adjList = graph.getAdjList();
 
         while (!pq.empty()) {
-            auto [currentDist, currentId] = pq.top();
+            auto [dist, u] = pq.top();
             pq.pop();
 
-            if (currentDist > distances[currentId]) continue;
-
-            // 遍历邻接点
-            for (const auto& [neighbor, weight] : adjList[currentId]) {
-                int neighborId = neighbor->getId();
-                int newDist = currentDist + weight;
-
-                if (newDist < distances[neighborId]) {
-                    distances[neighborId] = newDist;
-                    pq.emplace(newDist, neighborId);
-                }
+            // 如果队列中的距离大于当前记录的距离，跳过
+            if (dist > distances[u]) {
+                continue;
             }
-        }
 
-        return distances;
-    }
+            // 遍历邻接列表中的所有边
+            for (const auto &edge : adjList[u]) {
+                double newDist = distances[u] + edge.get()->getWeight();
+                int v = edge->getSecond()->getId();
 
-    // Prim 算法：计算最小生成树的总权重
-    int prim() const {
-        const auto& adjList = graph.getAdjList();
-        const int verticesNum = graph.getVerticesNum();
-
-        // 是否已访问
-        std::vector<bool> visited(verticesNum, false);
-        // 最小堆 {weight, vertexId}
-        using PII = std::pair<int, int>;
-        std::priority_queue<PII, std::vector<PII>, std::greater<>> pq;
-
-        // 开始节点假定为 0
-        int totalWeight = 0;
-        pq.emplace(0, 0);
-
-        while (!pq.empty()) {
-            auto [currentWeight, currentId] = pq.top();
-            pq.pop();
-
-            if (visited[currentId]) continue;
-            visited[currentId] = true;
-            totalWeight += currentWeight;
-
-            // 遍历邻接点
-            for (const auto& [neighbor, weight] : adjList[currentId]) {
-                int neighborId = neighbor->getId();
-                if (!visited[neighborId]) {
-                    pq.emplace(weight, neighborId);
-                }
-            }
-        }
-
-        return totalWeight;
-    }
-
-    // Floyd-Warshall 算法：计算所有点对之间的最短路径
-    std::vector<std::vector<int>> floydWarshall() const {
-        auto adjMatrix = graph.getAdjMatrix();
-        const int verticesNum = graph.getVerticesNum();
-
-        // 初始化距离矩阵
-        std::vector<std::vector<int>> distances = adjMatrix;
-        for (int i = 0; i < verticesNum; ++i) {
-            for (int j = 0; j < verticesNum; ++j) {
-                if (i != j && distances[i][j] == 0) {
-                    distances[i][j] = std::numeric_limits<int>::max(); // 无穷大
-                }
-            }
-        }
-
-        // 三重循环更新距离
-        for (int k = 0; k < verticesNum; ++k) {
-            for (int i = 0; i < verticesNum; ++i) {
-                for (int j = 0; j < verticesNum; ++j) {
-                    if (distances[i][k] != std::numeric_limits<int>::max() &&
-                        distances[k][j] != std::numeric_limits<int>::max() &&
-                        distances[i][k] + distances[k][j] < distances[i][j]) {
-                        distances[i][j] = distances[i][k] + distances[k][j];
+                // 找到更短路径时，更新距离和前驱节点
+                if (newDist < distances[v]) {
+                    distances[v] = newDist;
+                    prev[v] = {u}; // 更新为新的前驱节点
+                    pq.push({newDist, v});
+                } else if (std::abs(newDist - distances[v]) < 1e-6) {
+                    // 如果找到等距路径，添加新的前驱节点
+                    if (std::find(prev[v].begin(), prev[v].end(), u) == prev[v].end()) {
+                        prev[v].push_back(u); // 仅在前驱节点不存在的情况下添加
                     }
                 }
             }
         }
 
-        return distances;
+        vector<vector<int>> allPaths;
+        vector<int> path;
+
+        // 回溯函数，用于生成所有路径
+        std::function<void(int)> backtrack = [&](int node) {
+            if (node == sourceId) {
+                path.push_back(node);
+                allPaths.push_back(vector<int>(path.rbegin(), path.rend())); // 反转存储路径
+                path.pop_back();
+                return;
+            }
+            path.push_back(node);
+            for (int p : prev[node]) {
+                backtrack(p);
+            }
+            path.pop_back();
+        };
+
+        // 从每个目标节点回溯路径
+        for (int targetId = 0; targetId < graph.getVertices().size(); ++targetId) {
+            if (distances[targetId] != INT_MAX) {
+                backtrack(targetId);
+            }
+        }
+
+        return allPaths;
     }
 };
 
-#endif 
-
-
-
+#endif

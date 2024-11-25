@@ -1,6 +1,7 @@
+#include <QDebug>
 #include <QApplication>
 #include <QLabel>
-#include <QDebug>
+#include <QPixmap>
 
 #include "DigitalMap.hpp"
 
@@ -32,11 +33,15 @@ int main(int argc, char *argv[]) {
 
 #ifdef DEBUG_GRAPH
 
-int main(){
+
+
+int main(int argc, char *argv[]) {
     DigitalMap map=DigitalMap();
-    map.getGraph().printAdjList();
-    return 0;
+    map.shortestPathFunc("A","F");
+   
+   
 }
+
 
 #endif
 

@@ -1,0 +1,8 @@
+[
+{
+  "directory": "D:/Code/Cpp/2024 Fall Data Structure Code/cmake test/build",
+  "command": "D:\\mingw64\\bin\\g++.exe   -g -std=gnu++17 -o CMakeFiles\\SimpleProject.dir\\test.cpp.obj -c \"D:\\Code\\Cpp\\2024 Fall Data Structure Code\\cmake test\\test.cpp\"",
+  "file": "D:/Code/Cpp/2024 Fall Data Structure Code/cmake test/test.cpp",
+  "output": "CMakeFiles/SimpleProject.dir/test.cpp.obj"
+}
+]
