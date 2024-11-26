@@ -19,13 +19,11 @@ class GraphAlgorithms {
         vector<double> distances(graph.getVertices().size(), INT_MAX);
         distances[sourceId] = 0;
 
-        // prev 用于存储前驱节点列表，以便追踪最短路径
         std::unordered_map<int, vector<int>> prev;
         for (int i = 0; i < graph.getVertices().size(); i++) {
             prev[i] = {};
         }
 
-        // 使用优先队列来追踪最短距离的节点，最小堆
         std::priority_queue<distAndId, vector<distAndId>, std::greater<>> pq;
         pq.push({0, sourceId});
 
@@ -35,25 +33,23 @@ class GraphAlgorithms {
             auto [dist, u] = pq.top();
             pq.pop();
 
-            // 如果队列中的距离大于当前记录的距离，跳过
             if (dist > distances[u]) {
                 continue;
             }
 
-            // 遍历邻接列表中的所有边
             for (const auto &edge : adjList[u]) {
                 double newDist = distances[u] + edge.get()->getWeight();
-                int v = edge->getSecond()->getId();
 
-                // 找到更短路径时，更新距离和前驱节点
+                int v = edge.get()->getSecond()->getId();
+
                 if (newDist < distances[v]) {
                     distances[v] = newDist;
-                    prev[v] = {u}; // 更新为新的前驱节点
+                    prev[v] = {u};
                     pq.push({newDist, v});
                 } else if (std::abs(newDist - distances[v]) < 1e-6) {
-                    // 如果找到等距路径，添加新的前驱节点
+
                     if (std::find(prev[v].begin(), prev[v].end(), u) == prev[v].end()) {
-                        prev[v].push_back(u); // 仅在前驱节点不存在的情况下添加
+                        prev[v].push_back(u);
                     }
                 }
             }
@@ -62,7 +58,6 @@ class GraphAlgorithms {
         vector<vector<int>> allPaths;
         vector<int> path;
 
-        // 回溯函数，用于生成所有路径
         std::function<void(int)> backtrack = [&](int node) {
             if (node == sourceId) {
                 path.push_back(node);
@@ -77,7 +72,6 @@ class GraphAlgorithms {
             path.pop_back();
         };
 
-        // 从每个目标节点回溯路径
         for (int targetId = 0; targetId < graph.getVertices().size(); ++targetId) {
             if (distances[targetId] != INT_MAX) {
                 backtrack(targetId);
@@ -85,6 +79,107 @@ class GraphAlgorithms {
         }
 
         return allPaths;
+    }
+
+    vector<vector<int>> bellmanFord(int sourceId) {
+        int n = graph.getVertices().size();
+        vector<double> distances(n, INT_MAX);
+        distances[sourceId] = 0;
+
+        // 记录前驱节点，用于回溯路径
+        std::unordered_map<int, vector<int>> prev;
+        for (int i = 0; i < n; ++i) {
+            prev[i] = {};
+        }
+
+        vector<std::shared_ptr<Edge<DataType>>> edges = graph.getEdges(); // 获取图中所有边
+        bool updated;
+        for (int i = 1; i < n; i++) {
+            updated = false;
+            for (const std::shared_ptr<Edge<DataType>> &edge_ptr : edges) {
+                Edge<DataType> edge = (*edge_ptr.get());
+                int u = edge.getFirst().get()->getId();
+                int v = edge.getSecond().get()->getId();
+                double weight = edge.getWeight();
+                if (distances[u] + weight < distances[v]) {
+                    distances[v] = distances[u] + weight;
+                    prev[v] = {u};
+                    updated = true;
+                } else if (std::abs(distances[u] + weight - distances[v]) < 1e-6) {
+
+                    if (std::find(prev[v].begin(), prev[v].end(), u) == prev[v].end()) {
+                        prev[v].push_back(u);
+                    }
+                }
+            }
+            if (!updated) {
+                break;
+            }
+        }
+        vector<vector<int>> allPaths;
+        vector<int> path;
+
+        std::function<void(int)> backtrack = [&](int node) {
+            if (node == sourceId) {
+                path.push_back(node);
+                allPaths.push_back(vector<int>(path.rbegin(), path.rend())); // 反转存储路径
+                path.pop_back();
+                return;
+            }
+            path.push_back(node);
+            for (int p : prev[node]) {
+                backtrack(p);
+            }
+            path.pop_back();
+        };
+
+        for (int targetId = 0; targetId < graph.getVertices().size(); ++targetId) {
+            if (distances[targetId] != INT_MAX) {
+                backtrack(targetId);
+            }
+        }
+
+        return allPaths;
+    }
+
+    vector<shared_ptr<Edge<DataType>>> prim(int startId) {
+        int n = graph.getVertices().size();
+        vector<bool> InMST(n, false);
+        std::priority_queue<shared_ptr<Edge<DataType>>, vector<shared_ptr<Edge<DataType>>>, 
+                   std::function<bool(const shared_ptr<Edge<DataType>>&, const shared_ptr<Edge<DataType>>&)>> 
+        pq([](const shared_ptr<Edge<DataType>>& a, const shared_ptr<Edge<DataType>>& b) {
+            return a->getWeight() > b->getWeight(); // 按边权从小到大排序
+        });
+        vector<shared_ptr<Edge<DataType>>> mstEdges; // 存储生成树的边
+        InMST[startId] = true;
+        auto adjList = graph.getAdjList();
+        for (const auto &edge_ptr : adjList[startId]) {
+            pq.push(edge_ptr);
+        }
+        while (!pq.empty()) {
+            auto edge_ptr = pq.top();
+            pq.pop();
+
+            Edge<DataType>* edge = edge_ptr.get();
+            int dest = edge->getSecond()->getId(); // 边的目标节点
+
+      
+            if (InMST[dest]) continue;
+
+            mstEdges.push_back(edge_ptr);
+
+            InMST[dest] = true; 
+
+      
+            for (const auto &edge : adjList[dest]) {
+                int next = edge.get()->getSecond()->getId();
+                if (!InMST[next]) {
+                    pq.push(edge);
+                }
+            }
+
+        }
+        return mstEdges;
     }
 };
 

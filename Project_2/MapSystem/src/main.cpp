@@ -3,18 +3,17 @@
 #include <QLabel>
 #include <QPixmap>
 
-#include "DigitalMap.hpp"
+
+#include "Controller.hpp"
+
 
 
 //#define DEBUG_QT
-#define DEBUG_GRAPH
+//#define DEBUG_GRAPH
+#define MAIN
 
 #define TEST
 
-// 定义一个简单的测试函数
-void printMessage(const QString &message) {
-    qDebug() << "[Test Message]:" << message;
-}
 
 #ifdef DEBUG_QT
 
@@ -37,12 +36,26 @@ int main(int argc, char *argv[]) {
 
 int main(int argc, char *argv[]) {
     DigitalMap map=DigitalMap();
-    map.shortestPathFunc("A","F");
-   
-   
+    map.shortestPathFunc("A","L");
+    map.shortestPathFunc("A","L","bellmanFord");
+    map.MST("A");
+    QApplication app(argc, argv);
+    Controller controller;
+    controller.showGUI();
+    return app.exec();
 }
 
-
 #endif
+
+#ifdef MAIN
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+    Controller controller;
+    controller.showGUI();
+    return app.exec();
+}
+#endif
+
+
 
 

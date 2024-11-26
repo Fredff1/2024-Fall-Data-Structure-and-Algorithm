@@ -5,39 +5,59 @@ project(MyQtProject VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-# 手动指定 Qt6Widgets 的路径（确保路径正确）
-set(Qt6Widgets_DIR "D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/lib/cmake/Qt6Widgets")
+# 设置 Qt 安装路径
 set(CMAKE_PREFIX_PATH "D:/Code/Cpp/libs/Qt/6.8.0/mingw_64")
 
-set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_OBJECTS OFF)
-set(CMAKE_CXX_USE_RESPONSE_FILE_FOR_INCLUDES OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 
 # 查找 Qt6 并加载 Widgets 模块
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
-file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+# 打印 Qt 包含路径（调试用）
+# 注意：Qt6::Widgets 已经包含了必要的包含路径，不需要手动添加
+message(STATUS "Qt6 Widgets Include Path: ${Qt6Widgets_INCLUDE_DIRS}") # 可能为空
 
-# 添加可执行文件
-add_executable(${PROJECT_NAME} ${SOURCES})
+qt6_wrap_cpp(MOC_FILES include/View.hpp)
+# 查找所有源文件和头文件
+set(SOURCES
+    src/Model.cpp
+    src/View.cpp
+    src/main.cpp
+    ${MOC_FILES}
+    
+)
+
+# CMakeLists.txt
+set(HEADERS
+    include/View.hpp
+    include/Model.hpp
+    include/Controller.hpp
+    include/DigitalMap.hpp
+    include/Utility.hpp
+    include/Graph.hpp
+    include/GraphAlgorithm.hpp
+)
+
+
+
+message(STATUS "Source files: ${SOURCES}")
+
+# 添加可执行目标
+add_executable(${PROJECT_NAME} ${SOURCES} )
+
+# 添加 include 文件夹
+target_include_directories(${PROJECT_NAME} PRIVATE
+    "${CMAKE_SOURCE_DIR}/include"
+)
 
 # 链接 Qt Widgets 模块
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
 
-# 设置输出目录（可选）
+# 设置输出目录
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-)
-
-set(RESOURCE_DIR "${CMAKE_BINARY_DIR}/bin/resources")
-
-add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    "${CMAKE_SOURCE_DIR}/resources"
-    "${RESOURCE_DIR}"
 )

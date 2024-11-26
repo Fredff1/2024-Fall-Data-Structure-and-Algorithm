@@ -128,6 +128,67 @@ MyQtProject/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/build
 .PHONY : MyQtProject/fast
 
+#=============================================================================
+# Target rules for targets named MyQtProject_autogen
+
+# Build rule for target.
+MyQtProject_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 MyQtProject_autogen
+.PHONY : MyQtProject_autogen
+
+# fast build rule for target.
+MyQtProject_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject_autogen.dir\build.make CMakeFiles/MyQtProject_autogen.dir/build
+.PHONY : MyQtProject_autogen/fast
+
+MyQtProject_autogen/mocs_compilation.obj: MyQtProject_autogen/mocs_compilation.cpp.obj
+.PHONY : MyQtProject_autogen/mocs_compilation.obj
+
+# target to build an object file
+MyQtProject_autogen/mocs_compilation.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.obj
+.PHONY : MyQtProject_autogen/mocs_compilation.cpp.obj
+
+MyQtProject_autogen/mocs_compilation.i: MyQtProject_autogen/mocs_compilation.cpp.i
+.PHONY : MyQtProject_autogen/mocs_compilation.i
+
+# target to preprocess a source file
+MyQtProject_autogen/mocs_compilation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.i
+.PHONY : MyQtProject_autogen/mocs_compilation.cpp.i
+
+MyQtProject_autogen/mocs_compilation.s: MyQtProject_autogen/mocs_compilation.cpp.s
+.PHONY : MyQtProject_autogen/mocs_compilation.s
+
+# target to generate assembly for a file
+MyQtProject_autogen/mocs_compilation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.s
+.PHONY : MyQtProject_autogen/mocs_compilation.cpp.s
+
+include/moc_View.obj: include/moc_View.cpp.obj
+.PHONY : include/moc_View.obj
+
+# target to build an object file
+include/moc_View.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj
+.PHONY : include/moc_View.cpp.obj
+
+include/moc_View.i: include/moc_View.cpp.i
+.PHONY : include/moc_View.i
+
+# target to preprocess a source file
+include/moc_View.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/include/moc_View.cpp.i
+.PHONY : include/moc_View.cpp.i
+
+include/moc_View.s: include/moc_View.cpp.s
+.PHONY : include/moc_View.s
+
+# target to generate assembly for a file
+include/moc_View.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/include/moc_View.cpp.s
+.PHONY : include/moc_View.cpp.s
+
 src/Model.obj: src/Model.cpp.obj
 .PHONY : src/Model.obj
 
@@ -151,6 +212,30 @@ src/Model.s: src/Model.cpp.s
 src/Model.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/src/Model.cpp.s
 .PHONY : src/Model.cpp.s
+
+src/View.obj: src/View.cpp.obj
+.PHONY : src/View.obj
+
+# target to build an object file
+src/View.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/src/View.cpp.obj
+.PHONY : src/View.cpp.obj
+
+src/View.i: src/View.cpp.i
+.PHONY : src/View.i
+
+# target to preprocess a source file
+src/View.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/src/View.cpp.i
+.PHONY : src/View.cpp.i
+
+src/View.s: src/View.cpp.s
+.PHONY : src/View.s
+
+# target to generate assembly for a file
+src/View.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/src/View.cpp.s
+.PHONY : src/View.cpp.s
 
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
@@ -184,10 +269,20 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... MyQtProject_autogen
 	@echo ... MyQtProject
+	@echo ... MyQtProject_autogen/mocs_compilation.obj
+	@echo ... MyQtProject_autogen/mocs_compilation.i
+	@echo ... MyQtProject_autogen/mocs_compilation.s
+	@echo ... include/moc_View.obj
+	@echo ... include/moc_View.i
+	@echo ... include/moc_View.s
 	@echo ... src/Model.obj
 	@echo ... src/Model.i
 	@echo ... src/Model.s
+	@echo ... src/View.obj
+	@echo ... src/View.i
+	@echo ... src/View.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s

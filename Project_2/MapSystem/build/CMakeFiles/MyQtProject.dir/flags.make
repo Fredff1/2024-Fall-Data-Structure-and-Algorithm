@@ -4,7 +4,7 @@
 # compile CXX with D:/mingw64/bin/g++.exe
 CXX_DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
 
-CXX_INCLUDES = -ID:\Code\Cpp\2024FA~1\PROJEC~1\MAPSYS~1\include -isystem D:\Code\Cpp\libs\Qt\6.8.0\mingw_64\include\QtWidgets -isystem D:\Code\Cpp\libs\Qt\6.8.0\mingw_64\include -isystem D:\Code\Cpp\libs\Qt\6.8.0\mingw_64\include\QtCore -isystem D:\Code\Cpp\libs\Qt\6.8.0\mingw_64\mkspecs\win32-g++ -isystem D:\Code\Cpp\libs\Qt\6.8.0\mingw_64\include\QtGui
+CXX_INCLUDES = @CMakeFiles/MyQtProject.dir/includes_CXX.rsp
 
 CXX_FLAGS = -g -std=gnu++17 -pthread
 
