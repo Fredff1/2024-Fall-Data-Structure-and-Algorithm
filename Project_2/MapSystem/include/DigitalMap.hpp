@@ -3,6 +3,7 @@
 #include "GraphAlgorithm.hpp"
 #include "IOManager.hpp"
 #include "Utilility.hpp"
+#include <set>
 
 #include <memory>
 
@@ -66,6 +67,14 @@ class DigitalMap {
         return mapGraph;
     }
 
+    bool validateName(string name) const{
+        if(vertexMap.find(name)==vertexMap.end()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     std::vector<std::vector<int>> shortestPathFunc(string begin_name, string end_name, string algorithm_type = "dijkstra") {
         VertexType *begin_vertex = vertices[vertexMap.at(begin_name)].get();
         VertexType *end_vertex = vertices[vertexMap.at(end_name)].get();
@@ -91,7 +100,7 @@ class DigitalMap {
         return shortestPaths;
     }
 
-    vector<shared_ptr<Edge<MapNodeData>>> MST(string begin_name) {
+    vector<shared_ptr<Edge<MapNodeData>>> MST(string begin_name="A") {
         VertexType *begin_vertex = vertices[vertexMap.at(begin_name)].get();
         GraphAlgorithms alg = GraphAlgorithms(mapGraph);
         vector<shared_ptr<Edge<MapNodeData>>> mstResult;
@@ -147,17 +156,41 @@ class DigitalMap {
         return oss.str();
     }
 
+    std::string shortestPathsToStringSingleStyle(const std::vector<std::vector<int>> &shortestPaths) {
+        std::ostringstream oss;
+        oss << "Shortest Paths (Edges):\n";
+
+        // 使用 set 来去重
+        std::set<std::pair<std::string, std::string>> uniqueEdges;
+
+        for (const auto &path : shortestPaths) {
+            for (size_t i = 0; i < path.size() - 1; ++i) {
+                // 获取边的起点和终点
+                std::string from = vertices[path[i]]->getData().value().getName();
+                std::string to = vertices[path[i + 1]]->getData().value().getName();
+
+                // 保证无重复输出
+                if (uniqueEdges.emplace(from, to).second) {  // emplace 返回 true 表示插入成功
+                    oss << from << " -> " << to << '\n';
+                }
+            }
+        }
+        return oss.str();
+    }
+
     std::string mstToString(const std::vector<std::shared_ptr<Edge<MapNodeData>>> &mstResult) {
         std::ostringstream oss;
+        double full_len=0;
         oss << "Minimum Spanning Tree (MST):\n";
         for (const auto &edge_ptr : mstResult) {
             Edge<MapNodeData> *edge = edge_ptr.get();
             auto from = edge->getFirst()->getData().value().getName();
             auto to = edge->getSecond()->getData().value().getName();
             double weight = edge->getWeight();
-
-            oss << "Edge: " << from << " -> " << to << ", Weight: " << weight << "\n";
+            full_len+=weight;
+            oss << "Edge: " << from << " -> " << to << ", Length: " << weight << "\n";
         }
+        oss<<"Total length: "<<full_len<<"\n";
         return oss.str();
     }
 

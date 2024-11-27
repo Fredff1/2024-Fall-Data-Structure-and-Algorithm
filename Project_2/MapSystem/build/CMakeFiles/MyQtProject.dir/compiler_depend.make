@@ -183,6 +183,7 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj: include/moc_View.cpp \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLabel \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLineEdit \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMainWindow \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMessageBox \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QPushButton \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QScrollArea \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QTextEdit \
@@ -192,6 +193,8 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj: include/moc_View.cpp \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qframe.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
@@ -199,6 +202,7 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj: include/moc_View.cpp \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlineedit.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
@@ -291,11 +295,13 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj: include/moc_View.cpp \
   D:/mingw64/include/c++/13.2.0/bits/stl_list.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_map.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_multimap.h \
+  D:/mingw64/include/c++/13.2.0/bits/stl_multiset.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_numeric.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_pair.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_queue.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_raw_storage_iter.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_relops.h \
+  D:/mingw64/include/c++/13.2.0/bits/stl_set.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_tempbuf.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_tree.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_uninitialized.h \
@@ -363,6 +369,7 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj: include/moc_View.cpp \
   D:/mingw64/include/c++/13.2.0/queue \
   D:/mingw64/include/c++/13.2.0/random \
   D:/mingw64/include/c++/13.2.0/ratio \
+  D:/mingw64/include/c++/13.2.0/set \
   D:/mingw64/include/c++/13.2.0/sstream \
   D:/mingw64/include/c++/13.2.0/stdexcept \
   D:/mingw64/include/c++/13.2.0/stdlib.h \
@@ -641,6 +648,7 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLabel \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLineEdit \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMainWindow \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMessageBox \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QPushButton \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QScrollArea \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QTextEdit \
@@ -650,6 +658,8 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qframe.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
@@ -657,6 +667,7 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlineedit.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
@@ -749,11 +760,13 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/mingw64/include/c++/13.2.0/bits/stl_list.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_map.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_multimap.h \
+  D:/mingw64/include/c++/13.2.0/bits/stl_multiset.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_numeric.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_pair.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_queue.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_raw_storage_iter.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_relops.h \
+  D:/mingw64/include/c++/13.2.0/bits/stl_set.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_tempbuf.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_tree.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_uninitialized.h \
@@ -821,6 +834,7 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/mingw64/include/c++/13.2.0/queue \
   D:/mingw64/include/c++/13.2.0/random \
   D:/mingw64/include/c++/13.2.0/ratio \
+  D:/mingw64/include/c++/13.2.0/set \
   D:/mingw64/include/c++/13.2.0/sstream \
   D:/mingw64/include/c++/13.2.0/stdexcept \
   D:/mingw64/include/c++/13.2.0/stdlib.h \
@@ -1099,6 +1113,7 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLabel \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLineEdit \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMainWindow \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMessageBox \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QPushButton \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QScrollArea \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QTextEdit \
@@ -1108,6 +1123,8 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qframe.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
@@ -1115,6 +1132,7 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlineedit.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h \
+  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h \
   D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
@@ -1207,11 +1225,13 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/mingw64/include/c++/13.2.0/bits/stl_list.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_map.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_multimap.h \
+  D:/mingw64/include/c++/13.2.0/bits/stl_multiset.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_numeric.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_pair.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_queue.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_raw_storage_iter.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_relops.h \
+  D:/mingw64/include/c++/13.2.0/bits/stl_set.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_tempbuf.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_tree.h \
   D:/mingw64/include/c++/13.2.0/bits/stl_uninitialized.h \
@@ -1279,6 +1299,7 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Struc
   D:/mingw64/include/c++/13.2.0/queue \
   D:/mingw64/include/c++/13.2.0/random \
   D:/mingw64/include/c++/13.2.0/ratio \
+  D:/mingw64/include/c++/13.2.0/set \
   D:/mingw64/include/c++/13.2.0/sstream \
   D:/mingw64/include/c++/13.2.0/stdexcept \
   D:/mingw64/include/c++/13.2.0/stdlib.h \
@@ -1547,6 +1568,8 @@ D:/mingw64/include/c++/13.2.0/cstdint:
 
 D:/mingw64/include/c++/13.2.0/compare:
 
+D:/mingw64/include/c++/13.2.0/set:
+
 D:/mingw64/include/c++/13.2.0/cstddef:
 
 D:/mingw64/include/c++/13.2.0/climits:
@@ -1564,10 +1587,6 @@ D:/mingw64/include/c++/13.2.0/bits/vector.tcc:
 D:/mingw64/include/c++/13.2.0/bits/utility.h:
 
 D:/mingw64/include/c++/13.2.0/bits/uses_allocator_args.h:
-
-D:/mingw64/include/c++/13.2.0/map:
-
-D:/mingw64/include/c++/13.2.0/bits/uses_allocator.h:
 
 D:/mingw64/include/c++/13.2.0/ext/type_traits.h:
 
@@ -1593,9 +1612,13 @@ D:/mingw64/x86_64-w64-mingw32/include/mcfgthread/fwd.h:
 
 D:/mingw64/include/c++/13.2.0/bits/stl_tempbuf.h:
 
+D:/mingw64/include/c++/13.2.0/bits/stl_set.h:
+
 D:/mingw64/include/c++/13.2.0/bits/stl_relops.h:
 
 D:/mingw64/include/c++/13.2.0/bits/stl_raw_storage_iter.h:
+
+D:/mingw64/include/c++/13.2.0/bits/stl_multiset.h:
 
 D:/mingw64/include/c++/13.2.0/bits/stl_multimap.h:
 
@@ -1642,6 +1665,10 @@ D:/mingw64/include/c++/13.2.0/bits/random.h:
 D:/mingw64/include/c++/13.2.0/bits/ptr_traits.h:
 
 D:/mingw64/include/c++/13.2.0/bits/ostream.tcc:
+
+D:/mingw64/x86_64-w64-mingw32/include/malloc.h:
+
+D:/mingw64/include/c++/13.2.0/bits/memoryfwd.h:
 
 D:/mingw64/include/c++/13.2.0/fstream:
 
@@ -1713,7 +1740,17 @@ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QScrollArea:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qobject_impl.h:
 
+D:/mingw64/include/c++/13.2.0/bits/new_allocator.h:
+
+D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qtdeprecationmarkers.h:
+
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qarraydatapointer.h:
+
+D:/mingw64/include/c++/13.2.0/map:
+
+D:/mingw64/include/c++/13.2.0/bits/uses_allocator.h:
+
+D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qtcore-config.h:
 
@@ -1722,10 +1759,6 @@ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qnativeinterface.h:
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qbasicatomic.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qpoint.h:
-
-D:/mingw64/x86_64-w64-mingw32/include/malloc.h:
-
-D:/mingw64/include/c++/13.2.0/bits/memoryfwd.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qtenvironmentvariables.h:
 
@@ -1818,10 +1851,6 @@ D:/Code/Cpp/2024\ Fall\ Data\ Structure\ Code/Project_2/MapSystem/include/Contro
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qprocessordetection.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qbytearrayalgorithms.h:
-
-D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qtdeprecationmarkers.h:
-
-D:/mingw64/include/c++/13.2.0/bits/new_allocator.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtGui/qfont.h:
 
@@ -1981,6 +2010,10 @@ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qcontainerinfo.h:
 
 D:/mingw64/include/c++/13.2.0/bits/invoke.h:
 
+D:/mingw64/include/c++/13.2.0/bits/move.h:
+
+D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qcompilerdetection.h:
+
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtGui/qguiapplication_platform.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qconstructormacros.h:
@@ -2012,6 +2045,8 @@ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qcompare_impl.h:
 D:/mingw64/include/c++/13.2.0/bits/functexcept.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qmath.h:
+
+D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qcontiguouscache.h:
 
@@ -2117,6 +2152,8 @@ D:/mingw64/include/c++/13.2.0/pstl/pstl_config.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtGui/qfontmetrics.h:
 
+D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialog.h:
+
 D:/mingw64/include/c++/13.2.0/bits/char_traits.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtGui/qinputmethod.h:
@@ -2157,9 +2194,9 @@ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qmargins.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QApplication:
 
-D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qlist.h:
-
 D:/mingw64/include/c++/13.2.0/bits/nested_exception.h:
+
+D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qlist.h:
 
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout:
 
@@ -2168,6 +2205,8 @@ D:/mingw64/include/c++/13.2.0/ext/atomicity.h:
 D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMainWindow:
 
 D:/mingw64/include/c++/13.2.0/bits/cxxabi_forced.h:
+
+D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMessageBox:
 
 D:/Code/Cpp/2024\ Fall\ Data\ Structure\ Code/Project_2/MapSystem/src/Model.cpp:
 
@@ -2296,7 +2335,3 @@ D:/mingw64/include/c++/13.2.0/bits/locale_classes.h:
 D:/mingw64/include/c++/13.2.0/bits/locale_facets.tcc:
 
 D:/mingw64/include/c++/13.2.0/bits/localefwd.h:
-
-D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtCore/qcompilerdetection.h:
-
-D:/mingw64/include/c++/13.2.0/bits/move.h:

@@ -14,12 +14,12 @@ class Model{
         return result;
     }
 
-    vector<vector<int>> operation_II(string start_name,string end_name,string type="dijkstra"){
-        vector<vector<int>> result=map.shortestPathFunc(start_name,end_name,type);
+    vector<vector<int>> operation_II(string start_name,string type="dijkstra"){
+        vector<vector<int>> result=map.shortestPathFunc(start_name,"A",type);
         return result;
     }
 
-    vector<shared_ptr<Edge<MapNodeData>>> operation_III(string start_name,string type){
+    vector<shared_ptr<Edge<MapNodeData>>> operation_III(string start_name="A",string type="default"){
         vector<shared_ptr<Edge<MapNodeData>>> result=map.MST(start_name);
         return result;
     }

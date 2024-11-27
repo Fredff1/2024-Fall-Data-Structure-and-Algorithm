@@ -185,6 +185,7 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLabel
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLineEdit
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMainWindow
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMessageBox
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QPushButton
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QScrollArea
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QTextEdit
@@ -194,6 +195,8 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qapplication.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialog.h
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qframe.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlabel.h
@@ -201,6 +204,7 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlineedit.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h
@@ -293,11 +297,13 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj
  D:/mingw64/include/c++/13.2.0/bits/stl_list.h
  D:/mingw64/include/c++/13.2.0/bits/stl_map.h
  D:/mingw64/include/c++/13.2.0/bits/stl_multimap.h
+ D:/mingw64/include/c++/13.2.0/bits/stl_multiset.h
  D:/mingw64/include/c++/13.2.0/bits/stl_numeric.h
  D:/mingw64/include/c++/13.2.0/bits/stl_pair.h
  D:/mingw64/include/c++/13.2.0/bits/stl_queue.h
  D:/mingw64/include/c++/13.2.0/bits/stl_raw_storage_iter.h
  D:/mingw64/include/c++/13.2.0/bits/stl_relops.h
+ D:/mingw64/include/c++/13.2.0/bits/stl_set.h
  D:/mingw64/include/c++/13.2.0/bits/stl_tempbuf.h
  D:/mingw64/include/c++/13.2.0/bits/stl_tree.h
  D:/mingw64/include/c++/13.2.0/bits/stl_uninitialized.h
@@ -365,6 +371,7 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj
  D:/mingw64/include/c++/13.2.0/queue
  D:/mingw64/include/c++/13.2.0/random
  D:/mingw64/include/c++/13.2.0/ratio
+ D:/mingw64/include/c++/13.2.0/set
  D:/mingw64/include/c++/13.2.0/sstream
  D:/mingw64/include/c++/13.2.0/stdexcept
  D:/mingw64/include/c++/13.2.0/stdlib.h
@@ -645,6 +652,7 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLabel
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLineEdit
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMainWindow
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMessageBox
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QPushButton
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QScrollArea
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QTextEdit
@@ -654,6 +662,8 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qapplication.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialog.h
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qframe.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlabel.h
@@ -661,6 +671,7 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlineedit.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h
@@ -753,11 +764,13 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj
  D:/mingw64/include/c++/13.2.0/bits/stl_list.h
  D:/mingw64/include/c++/13.2.0/bits/stl_map.h
  D:/mingw64/include/c++/13.2.0/bits/stl_multimap.h
+ D:/mingw64/include/c++/13.2.0/bits/stl_multiset.h
  D:/mingw64/include/c++/13.2.0/bits/stl_numeric.h
  D:/mingw64/include/c++/13.2.0/bits/stl_pair.h
  D:/mingw64/include/c++/13.2.0/bits/stl_queue.h
  D:/mingw64/include/c++/13.2.0/bits/stl_raw_storage_iter.h
  D:/mingw64/include/c++/13.2.0/bits/stl_relops.h
+ D:/mingw64/include/c++/13.2.0/bits/stl_set.h
  D:/mingw64/include/c++/13.2.0/bits/stl_tempbuf.h
  D:/mingw64/include/c++/13.2.0/bits/stl_tree.h
  D:/mingw64/include/c++/13.2.0/bits/stl_uninitialized.h
@@ -825,6 +838,7 @@ CMakeFiles/MyQtProject.dir/src/View.cpp.obj
  D:/mingw64/include/c++/13.2.0/queue
  D:/mingw64/include/c++/13.2.0/random
  D:/mingw64/include/c++/13.2.0/ratio
+ D:/mingw64/include/c++/13.2.0/set
  D:/mingw64/include/c++/13.2.0/sstream
  D:/mingw64/include/c++/13.2.0/stdexcept
  D:/mingw64/include/c++/13.2.0/stdlib.h
@@ -1104,6 +1118,7 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLabel
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QLineEdit
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMainWindow
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QMessageBox
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QPushButton
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QScrollArea
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/QTextEdit
@@ -1113,6 +1128,8 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qapplication.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialog.h
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qframe.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlabel.h
@@ -1120,6 +1137,7 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qlineedit.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h
+ D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qmessagebox.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qscrollarea.h
  D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h
@@ -1212,11 +1230,13 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj
  D:/mingw64/include/c++/13.2.0/bits/stl_list.h
  D:/mingw64/include/c++/13.2.0/bits/stl_map.h
  D:/mingw64/include/c++/13.2.0/bits/stl_multimap.h
+ D:/mingw64/include/c++/13.2.0/bits/stl_multiset.h
  D:/mingw64/include/c++/13.2.0/bits/stl_numeric.h
  D:/mingw64/include/c++/13.2.0/bits/stl_pair.h
  D:/mingw64/include/c++/13.2.0/bits/stl_queue.h
  D:/mingw64/include/c++/13.2.0/bits/stl_raw_storage_iter.h
  D:/mingw64/include/c++/13.2.0/bits/stl_relops.h
+ D:/mingw64/include/c++/13.2.0/bits/stl_set.h
  D:/mingw64/include/c++/13.2.0/bits/stl_tempbuf.h
  D:/mingw64/include/c++/13.2.0/bits/stl_tree.h
  D:/mingw64/include/c++/13.2.0/bits/stl_uninitialized.h
@@ -1284,6 +1304,7 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj
  D:/mingw64/include/c++/13.2.0/queue
  D:/mingw64/include/c++/13.2.0/random
  D:/mingw64/include/c++/13.2.0/ratio
+ D:/mingw64/include/c++/13.2.0/set
  D:/mingw64/include/c++/13.2.0/sstream
  D:/mingw64/include/c++/13.2.0/stdexcept
  D:/mingw64/include/c++/13.2.0/stdlib.h
