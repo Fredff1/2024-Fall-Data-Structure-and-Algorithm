@@ -3,6 +3,7 @@
 #include "GraphAlgorithm.hpp"
 #include "IOManager.hpp"
 #include "Utilility.hpp"
+#include "GlobalFlags.hpp"
 #include <set>
 
 #include <memory>
@@ -35,6 +36,7 @@ class DigitalMap {
     vector<shared_ptr<Vertex<MapNodeData>>> vertices;
     std::unordered_map<std::string, size_t> vertexMap;
     Graph<MapNodeData> mapGraph;
+    GraphAlgorithms<MapNodeData> alg;
     vector<vector<double>> shortestPath;
 
     Graph<MapNodeData> initGraph(string path) {
@@ -60,7 +62,7 @@ class DigitalMap {
     }
 
   public:
-    DigitalMap(string path = "./resources/edge.txt") : vertices(), edges(), mapGraph(initGraph(path)) {
+    DigitalMap(string path = "./resources/edge.txt") : vertices(), edges(), mapGraph(initGraph(path)),alg(GraphAlgorithms(mapGraph)) {
     }
 
     Graph<MapNodeData> getGraph() const {
@@ -79,7 +81,6 @@ class DigitalMap {
         VertexType *begin_vertex = vertices[vertexMap.at(begin_name)].get();
         VertexType *end_vertex = vertices[vertexMap.at(end_name)].get();
 
-        GraphAlgorithms alg = GraphAlgorithms(mapGraph);
         std::vector<std::vector<int>> shortestPaths;
         if (algorithm_type == "dijkstra") {
             shortestPaths = alg.dijkstra(begin_vertex->getId());
@@ -87,42 +88,46 @@ class DigitalMap {
             shortestPaths = alg.bellmanFord(begin_vertex->getId());
         }
 
-        for (const auto &path : shortestPaths) {
-            if (vertices[path.back()].get()->getData().value().getName() == end_vertex->getData().value().getName()) {
-                for (const auto &id : path) {
-                    VertexType *vtx = vertices[id].get();
-                    auto name = vtx->getData().value().getName();
-                    cout << name << " ";
-                }
-                cout << endl;
-            }
-        }
+        #ifdef DEBUG_GRAPH
+        cout<<shortestPathsToString(shortestPaths);
+        #endif
+        
         return shortestPaths;
     }
 
-    vector<shared_ptr<Edge<MapNodeData>>> MST(string begin_name="A") {
+    vector<shared_ptr<Edge<MapNodeData>>> MST(string begin_name="A",string type="prim") {
         VertexType *begin_vertex = vertices[vertexMap.at(begin_name)].get();
-        GraphAlgorithms alg = GraphAlgorithms(mapGraph);
+        
         vector<shared_ptr<Edge<MapNodeData>>> mstResult;
-        mstResult = alg.prim(begin_vertex->getId());
-        for (const auto &edge_ptr : mstResult) {
-            // 获取边的原始对象
-            Edge<MapNodeData> *edge = edge_ptr.get();
-
-            // 获取边的起点、终点和权重
-            int from = edge->getFirst()->getId();
-            int to = edge->getSecond()->getId();
-            double weight = edge->getWeight();
-
-            // 输出边的信息
-            cout << "Edge from " << from << " to " << to << ", Weight: " << weight << endl;
+        if(type=="prim"){
+           // mstResult = alg.prim(begin_vertex->getId());
+        }else if(type=="kruskal"){
+            mstResult=alg.kruskal().at(0);
         }
+        
+
+
+        #ifdef DEBUG_GRAPH
+        try{
+            auto results=alg.kruskal();
+            for(const auto&single:results){
+                cout<<mstToString(single);
+                cout<<"-------------------------------\n";
+            }
+           
+            //cout<<mstToString(mstResult);
+        }catch(std::exception&e){
+
+        }
+            
+        #endif
         return mstResult;
     }
 
     std::string shortestPathOneToString(const std::vector<std::vector<int>> &shortestPaths,string end_name) {
         VertexType *end_vertex = vertices[vertexMap.at(end_name)].get();
         std::ostringstream oss;
+        double full_len=0;
         oss << "Shortest Path:\n";
         for (const auto &path : shortestPaths) {
             if (vertices[path.back()].get()->getData().value().getName() == end_vertex->getData().value().getName()){
@@ -131,9 +136,13 @@ class DigitalMap {
                 oss << vertices[path[i]]->getData().value().getName();
                 if (i != path.size() - 1) {
                     oss << " -> ";
+                    full_len+=mapGraph.getEdge(path[i],path[i+1]).get()->getWeight();
                 }
+                
             }
-            oss << " ]\n";
+            
+            oss << " length:"<<full_len<<"km ]\n";
+            full_len=0;
             }
             
         }
@@ -143,15 +152,19 @@ class DigitalMap {
     std::string shortestPathsToString(const std::vector<std::vector<int>> &shortestPaths) {
         std::ostringstream oss;
         oss << "Shortest Paths:\n";
+        double full_len=0;
         for (const auto &path : shortestPaths) {
             oss << "[ ";
             for (size_t i = 0; i < path.size(); ++i) {
                 oss << vertices[path[i]]->getData().value().getName();
                 if (i != path.size() - 1) {
                     oss << " -> ";
+                    full_len+=mapGraph.getEdge(path[i],path[i+1]).get()->getWeight();
                 }
+                
             }
-            oss << " ]\n";
+            oss << " length:"<<full_len<<"km ]\n";
+            full_len=0;
         }
         return oss.str();
     }
@@ -159,7 +172,7 @@ class DigitalMap {
     std::string shortestPathsToStringSingleStyle(const std::vector<std::vector<int>> &shortestPaths) {
         std::ostringstream oss;
         oss << "Shortest Paths (Edges):\n";
-
+        double full_len=0;
         // 使用 set 来去重
         std::set<std::pair<std::string, std::string>> uniqueEdges;
 
@@ -168,17 +181,22 @@ class DigitalMap {
                 // 获取边的起点和终点
                 std::string from = vertices[path[i]]->getData().value().getName();
                 std::string to = vertices[path[i + 1]]->getData().value().getName();
+                double weight=mapGraph.getEdge(path[i],path[i+1]).get()->getWeight();
+                full_len+=weight;
 
                 // 保证无重复输出
                 if (uniqueEdges.emplace(from, to).second) {  // emplace 返回 true 表示插入成功
-                    oss << from << " -> " << to << '\n';
+                    oss << from << " -> " << to << " length:"<<weight<<"km\n";
                 }
             }
+            // oss<<"Total:"<<full_len<<"km\n";
+            // full_len=0;
         }
+        
         return oss.str();
     }
 
-    std::string mstToString(const std::vector<std::shared_ptr<Edge<MapNodeData>>> &mstResult) {
+    std::string mstToString(const std::vector<std::shared_ptr<Edge<MapNodeData>>> &mstResult,string prefix="") {
         std::ostringstream oss;
         double full_len=0;
         oss << "Minimum Spanning Tree (MST):\n";
@@ -188,10 +206,10 @@ class DigitalMap {
             auto to = edge->getSecond()->getData().value().getName();
             double weight = edge->getWeight();
             full_len+=weight;
-            oss << "Edge: " << from << " -> " << to << ", Length: " << weight << "\n";
+            oss << "Edge: " << from << " -> " << to << ", Length: " << weight << "km\n";
         }
         oss<<"Total length: "<<full_len<<"\n";
-        return oss.str();
+        return prefix+oss.str();
     }
 
     std::unordered_map<std::string, size_t> loadGraphFromFile(const std::string &filename) {

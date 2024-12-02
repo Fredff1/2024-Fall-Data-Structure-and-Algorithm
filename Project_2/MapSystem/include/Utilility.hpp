@@ -10,6 +10,8 @@
 #include <type_traits>
 #include <vector>
 
+#include "GlobalFlags.hpp"
+
 using std::cin;
 using std::cout;
 using std::endl;

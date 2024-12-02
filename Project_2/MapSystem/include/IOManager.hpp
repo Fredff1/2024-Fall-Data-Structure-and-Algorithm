@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "Graph.hpp"
+#include "GlobalFlags.hpp"
 
 using std::unique_ptr,std::shared_ptr;
 

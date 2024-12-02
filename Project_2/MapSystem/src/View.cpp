@@ -2,6 +2,122 @@
 
 class ConfigPage;
 
+ConfigPage::ConfigPage(View *view, QWidget *parent) : QWidget(parent), view(view) {
+    setWindowTitle("Config Page");
+    setFixedSize(250, 400);
+
+    setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+
+    mainLayout = new QHBoxLayout(this);
+    layout = new QVBoxLayout();
+
+    // 添加每种操作的算法选择框
+    std::vector<std::string> operations = {"Operation 1", "Operation 2", "Operation 3", "Operation 4"};
+    for (const auto &operation : operations) {
+        QLabel *label = new QLabel(createQString(operation), this);
+        label->setStyleSheet("QLabel {"
+                             "   color: #2c3e50;"
+                             "   font-size: 10px;"
+                             "   font-weight: bold;"
+                             "   border: 1px solid #bdc3c7;"
+                             "   background-color: #ecf0f1;"
+                             "   padding: 5px;"
+                             "   border-radius: 5px;"
+                             "}");    // 添加更多文本
+        QComboBox *comboBox = new QComboBox(this);
+
+        comboBox->setStyleSheet("QComboBox {"
+                                "   background-color: #1abc9c;"
+                                "   color: white;"
+                                "   font-size: 16px;"
+                                "   border: 2px solid #16a085;"
+                                "   border-radius: 8px;"
+                                "   padding: 8px 16px;"
+                                "} "
+                                "QComboBox::drop-down {"
+                                "   border: 0px;"
+                                "} "
+                                "QComboBox::down-arrow {"
+                                "   image: url(:/icons/arrow_down.png);"
+                                "   width: 14px;"
+                                "   height: 14px;"
+                                "} "
+                                "QComboBox:hover {"
+                                "   background-color: #16a085;"
+                                "} "
+                                "QComboBox:pressed {"
+                                "   background-color: #148f77;"
+                                "   border: 2px solid #117864;"
+                                "} "
+                                "QComboBox QAbstractItemView {"
+                                "   background-color: #1abc9c;"
+                                "   color: white;"
+                                "   border: 1px solid #16a085;"
+                                "} ");
+
+        // 添加算法选项
+        initOperationAlgorithmTypes(operation, comboBox);
+        operationComboBoxes[operation] = comboBox;
+
+        // 添加到布局
+        layout->addWidget(label);
+        layout->addWidget(comboBox);
+
+        // 信号槽：选择改变时通知主界面
+        connect(comboBox, &QComboBox::currentTextChanged, [this, operation](const QString &selectedAlgorithm) {
+            string type = fromQString(selectedAlgorithm);
+            this->view->setOperationAlgorithm(operation, type);
+        });
+    }
+
+    // 创建返回按钮
+    backButton = new QPushButton("Back", this);
+    backButton->setStyleSheet("QPushButton {"
+                              "   background-color: #1abc9c;"
+                              "   color: white;"
+                              "   font-size: 16px;"
+                              "   border: 2px solid #16a085;"
+                              "   border-radius: 8px;"
+                              "   padding: 8px 16px;"
+                              "} "
+                              "QPushButton:hover {"
+                              "   background-color: #16a085;"
+                              "} "
+                              "QPushButton:pressed {"
+                              "   background-color: #148f77;"
+                              "   border: 2px solid #117864;"
+                              "}");
+
+    // 添加返回按钮到布局
+    layout->addWidget(backButton);
+    layout->setAlignment(Qt::AlignVCenter);
+    mainLayout->addLayout(layout);
+    mainLayout->setAlignment(Qt::AlignCenter);
+
+    // 返回主页面
+    connect(backButton, &QPushButton::clicked, this, &ConfigPage::configCompleted);
+}
+
+void ConfigPage::initOperationAlgorithmTypes(string operation_name, QComboBox *comboBox) {
+    if (operation_name == "Operation 1") {
+        comboBox->addItem(createQString("bellmanFord"));
+        comboBox->addItem(createQString("dijkstra"));
+        view->setOperationAlgorithm("Operation 1", "bellmanFord");
+
+    } else if (operation_name == "Operation 2") {
+        comboBox->addItem(createQString("bellmanFord"));
+        comboBox->addItem(createQString("dijkstra"));
+        view->setOperationAlgorithm("Operation 2", "bellmanFord");
+    } else if (operation_name == "Operation 3") {
+        comboBox->addItem(createQString("prim"));
+        view->setOperationAlgorithm("Operation 3", "prim");
+    } else if (operation_name == "Operation 4") {
+        comboBox->addItem(createQString("dijkstra"));
+        comboBox->addItem(createQString("bellmanFord"));
+        view->setOperationAlgorithm("Operation 4", "dijkstra");
+    }
+}
+
 // View.cpp
 View::View(Model &model, QWidget *parent, int width, int height) : QMainWindow(parent), model(model) {
     // 设置窗口标题和大小
@@ -41,7 +157,7 @@ View::View(Model &model, QWidget *parent, int width, int height) : QMainWindow(p
     mainLayout->addLayout(configButtonLayout);
 
     // 配置页面
-    configPage = new ConfigPage();
+    configPage = new ConfigPage(this);
 
     // 信号槽：点击按钮显示配置页面
     connect(configButton, &QPushButton::clicked, this, &View::openConfigPage);
@@ -166,10 +282,11 @@ View::View(Model &model, QWidget *parent, int width, int height) : QMainWindow(p
     QPushButton *button0 = dynamic_cast<QPushButton *>(qObjects["Operation 1"]);
     connect(button0, &QPushButton::clicked, this, [this]() {
         auto targets = getStringFromTextField();
+        string type = this->algorithmTypes["Operation 1"];
         try {
-            auto result = this->model.operation_I(targets.first, targets.second);
-            string text = this->model.getMap().shortestPathOneToString(result, targets.second);
-            this->setPathLabelContent(text);
+            string result = this->model.operation_I(targets.first, targets.second, type);
+
+            this->setPathLabelContent(result);
         } catch (std::exception &e) {
             this->warnUser("Invalid input");
         }
@@ -177,10 +294,11 @@ View::View(Model &model, QWidget *parent, int width, int height) : QMainWindow(p
     QPushButton *button1 = dynamic_cast<QPushButton *>(qObjects["Operation 2"]);
     connect(button1, &QPushButton::clicked, this, [this]() {
         auto targets = getStringFromTextField();
+        string type = this->algorithmTypes["Operation 2"];
         try {
-            auto result = this->model.operation_II(targets.first);
-            string text = this->model.getMap().shortestPathsToString(result);
-            this->setPathLabelContent(text);
+            string result = this->model.operation_II(targets.first, type);
+
+            this->setPathLabelContent(result);
         } catch (std::exception &e) {
             this->warnUser("Invalid input");
         }
@@ -188,13 +306,13 @@ View::View(Model &model, QWidget *parent, int width, int height) : QMainWindow(p
     QPushButton *button2 = dynamic_cast<QPushButton *>(qObjects["Operation 3"]);
     connect(button2, &QPushButton::clicked, this, [this]() {
         auto targets = getStringFromTextField();
+        string type = this->algorithmTypes["Operation 3"];
         try {
             if (targets.first.empty()) {
                 targets.first = "A";
             }
-            auto result = this->model.operation_III(targets.first);
-            string text = this->model.getMap().mstToString(result);
-            this->setPathLabelContent(text);
+            string result = this->model.operation_III(targets.first, type);
+            this->setPathLabelContent(result);
         } catch (std::exception &e) {
             this->warnUser("Invalid input");
         }
@@ -202,10 +320,11 @@ View::View(Model &model, QWidget *parent, int width, int height) : QMainWindow(p
     QPushButton *button3 = dynamic_cast<QPushButton *>(qObjects["Operation 4"]);
     connect(button3, &QPushButton::clicked, this, [this]() {
         auto targets = getStringFromTextField();
+        string type = this->algorithmTypes["Operation 4"];
         try {
-            auto result = this->model.operation_IV(targets.first);
-            string text = this->model.getMap().shortestPathsToStringSingleStyle(result);
-            this->setPathLabelContent(text);
+            string result = this->model.operation_IV(targets.first, type);
+
+            this->setPathLabelContent(result);
         } catch (std::exception &e) {
             this->warnUser("Invalid input");
         }
@@ -255,23 +374,3 @@ View::~View() {
     // 清理代码
 }
 
-void View::onButtonClicked() {
-    // 获取发送信号的对象
-
-    QPushButton *senderButton = qobject_cast<QPushButton *>(sender());
-    if (senderButton) {
-        // 根据按钮的对象名称或文本区分不同按钮
-        QString buttonName = senderButton->objectName();
-        qDebug() << "Button clicked:" << buttonName;
-
-        if (buttonName == "OperationButton0") {
-            qDebug() << "Operation 1 executed";
-        } else if (buttonName == "OperationButton1") {
-            qDebug() << "Operation 2 executed";
-        } else if (buttonName == "OperationButton2") {
-            qDebug() << "Operation 3 executed";
-        } else if (buttonName == "OperationButton3") {
-            qDebug() << "Operation 4 executed";
-        }
-    }
-}

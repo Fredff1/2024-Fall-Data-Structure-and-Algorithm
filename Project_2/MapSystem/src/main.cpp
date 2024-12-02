@@ -5,14 +5,11 @@
 
 
 #include "Controller.hpp"
+#include "GlobalFlags.hpp"
 
 
 
-//#define DEBUG_QT
-//#define DEBUG_GRAPH
-#define MAIN
 
-#define TEST
 
 
 #ifdef DEBUG_QT
@@ -36,13 +33,17 @@ int main(int argc, char *argv[]) {
 
 int main(int argc, char *argv[]) {
     DigitalMap map=DigitalMap();
-    map.shortestPathFunc("A","L");
-    map.shortestPathFunc("A","L","bellmanFord");
-    map.MST("A");
-    QApplication app(argc, argv);
-    Controller controller;
-    controller.showGUI();
-    return app.exec();
+    //map.MST("A");
+    //cout<<"---------------------------";
+    map.MST("A","kruskal");
+    // map.shortestPathFunc("A","L");
+    // map.shortestPathFunc("A","L","bellmanFord");
+    // map.MST("A");
+    // QApplication app(argc, argv);
+    // Controller controller;
+    // controller.showGUI();
+    // return app.exec();
+
 }
 
 #endif
