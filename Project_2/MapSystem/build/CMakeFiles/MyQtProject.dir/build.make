@@ -87,26 +87,11 @@ CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.s: cmake_for
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.s"
 	D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\MyQtProject_autogen\mocs_compilation.cpp" -o CMakeFiles\MyQtProject.dir\MyQtProject_autogen\mocs_compilation.cpp.s
 
-CMakeFiles/MyQtProject.dir/src/Model.cpp.obj: CMakeFiles/MyQtProject.dir/flags.make
-CMakeFiles/MyQtProject.dir/src/Model.cpp.obj: CMakeFiles/MyQtProject.dir/includes_CXX.rsp
-CMakeFiles/MyQtProject.dir/src/Model.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Structure\ Code/Project_2/MapSystem/src/Model.cpp
-CMakeFiles/MyQtProject.dir/src/Model.cpp.obj: CMakeFiles/MyQtProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/MyQtProject.dir/src/Model.cpp.obj"
-	D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyQtProject.dir/src/Model.cpp.obj -MF CMakeFiles\MyQtProject.dir\src\Model.cpp.obj.d -o CMakeFiles\MyQtProject.dir\src\Model.cpp.obj -c "D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\src\Model.cpp"
-
-CMakeFiles/MyQtProject.dir/src/Model.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MyQtProject.dir/src/Model.cpp.i"
-	D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\src\Model.cpp" > CMakeFiles\MyQtProject.dir\src\Model.cpp.i
-
-CMakeFiles/MyQtProject.dir/src/Model.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MyQtProject.dir/src/Model.cpp.s"
-	D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\src\Model.cpp" -o CMakeFiles\MyQtProject.dir\src\Model.cpp.s
-
 CMakeFiles/MyQtProject.dir/src/View.cpp.obj: CMakeFiles/MyQtProject.dir/flags.make
 CMakeFiles/MyQtProject.dir/src/View.cpp.obj: CMakeFiles/MyQtProject.dir/includes_CXX.rsp
 CMakeFiles/MyQtProject.dir/src/View.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Structure\ Code/Project_2/MapSystem/src/View.cpp
 CMakeFiles/MyQtProject.dir/src/View.cpp.obj: CMakeFiles/MyQtProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/MyQtProject.dir/src/View.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/MyQtProject.dir/src/View.cpp.obj"
 	D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyQtProject.dir/src/View.cpp.obj -MF CMakeFiles\MyQtProject.dir\src\View.cpp.obj.d -o CMakeFiles\MyQtProject.dir\src\View.cpp.obj -c "D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\src\View.cpp"
 
 CMakeFiles/MyQtProject.dir/src/View.cpp.i: cmake_force
@@ -121,7 +106,7 @@ CMakeFiles/MyQtProject.dir/src/main.cpp.obj: CMakeFiles/MyQtProject.dir/flags.ma
 CMakeFiles/MyQtProject.dir/src/main.cpp.obj: CMakeFiles/MyQtProject.dir/includes_CXX.rsp
 CMakeFiles/MyQtProject.dir/src/main.cpp.obj: D:/Code/Cpp/2024\ Fall\ Data\ Structure\ Code/Project_2/MapSystem/src/main.cpp
 CMakeFiles/MyQtProject.dir/src/main.cpp.obj: CMakeFiles/MyQtProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/MyQtProject.dir/src/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/MyQtProject.dir/src/main.cpp.obj"
 	D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyQtProject.dir/src/main.cpp.obj -MF CMakeFiles\MyQtProject.dir\src\main.cpp.obj.d -o CMakeFiles\MyQtProject.dir\src\main.cpp.obj -c "D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\src\main.cpp"
 
 CMakeFiles/MyQtProject.dir/src/main.cpp.i: cmake_force
@@ -136,7 +121,7 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj: CMakeFiles/MyQtProject.dir/
 CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj: CMakeFiles/MyQtProject.dir/includes_CXX.rsp
 CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj: include/moc_View.cpp
 CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj: CMakeFiles/MyQtProject.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj"
 	D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj -MF CMakeFiles\MyQtProject.dir\include\moc_View.cpp.obj.d -o CMakeFiles\MyQtProject.dir\include\moc_View.cpp.obj -c "D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\include\moc_View.cpp"
 
 CMakeFiles/MyQtProject.dir/include/moc_View.cpp.i: cmake_force
@@ -150,7 +135,6 @@ CMakeFiles/MyQtProject.dir/include/moc_View.cpp.s: cmake_force
 # Object files for target MyQtProject
 MyQtProject_OBJECTS = \
 "CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.obj" \
-"CMakeFiles/MyQtProject.dir/src/Model.cpp.obj" \
 "CMakeFiles/MyQtProject.dir/src/View.cpp.obj" \
 "CMakeFiles/MyQtProject.dir/src/main.cpp.obj" \
 "CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj"
@@ -159,7 +143,6 @@ MyQtProject_OBJECTS = \
 MyQtProject_EXTERNAL_OBJECTS =
 
 bin/MyQtProject.exe: CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.obj
-bin/MyQtProject.exe: CMakeFiles/MyQtProject.dir/src/Model.cpp.obj
 bin/MyQtProject.exe: CMakeFiles/MyQtProject.dir/src/View.cpp.obj
 bin/MyQtProject.exe: CMakeFiles/MyQtProject.dir/src/main.cpp.obj
 bin/MyQtProject.exe: CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj
@@ -170,7 +153,7 @@ bin/MyQtProject.exe: D:/Code/Cpp/libs/Qt/6.8.0/mingw_64/lib/libQt6Core.a
 bin/MyQtProject.exe: CMakeFiles/MyQtProject.dir/linkLibs.rsp
 bin/MyQtProject.exe: CMakeFiles/MyQtProject.dir/objects1.rsp
 bin/MyQtProject.exe: CMakeFiles/MyQtProject.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable bin\MyQtProject.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="D:\Code\Cpp\2024 Fall Data Structure Code\Project_2\MapSystem\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable bin\MyQtProject.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\MyQtProject.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

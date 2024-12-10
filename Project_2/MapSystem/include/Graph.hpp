@@ -247,17 +247,14 @@ class Graph {
         }
     }
 
-    // 获取所有顶点
     const std::vector<std::shared_ptr<Vertex<DataType>>>& getVertices() const {
         return vertexVec;
     }
 
-    // 获取所有边
     const std::vector<std::shared_ptr<Edge<DataType>>>& getEdges() const {
         return edgeVec;
     }
 
-    // 获取邻接表
     const std::vector<std::list<std::shared_ptr<Edge<DataType>>>>& getAdjList() const {
         if (!hasAdjList) {
             throw std::runtime_error("Adjacency list representation is not initialized.");
@@ -265,7 +262,7 @@ class Graph {
         return adjList;
     }
 
-    // 获取邻接矩阵
+
     const std::vector<std::vector<double>>& getAdjMatrix() const {
         if (!hasAdjMatrix) {
             throw std::runtime_error("Adjacency matrix representation is not initialized.");
@@ -273,7 +270,6 @@ class Graph {
         return adjMatrix;
     }
 
-    // 获取指定顶点
     const std::shared_ptr<Vertex<DataType>>& getVertex(int id) const {
         if (id < 0 || id >= verticesNum) {
             throw std::out_of_range("Vertex ID is out of range.");
@@ -281,7 +277,7 @@ class Graph {
         return vertexVec[id];
     }
 
-    // 获取指定边
+
     const std::shared_ptr<Edge<DataType>>& getEdge(int fromId, int toId) const {
         if (!hasAdjList) {
             throw std::runtime_error("Adjacency list representation is required to get an edge.");

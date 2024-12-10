@@ -25,6 +25,9 @@ class MyQStringHandler{
   private:
     std::unordered_map<string, QString *> qStrings;
   public:
+  ~MyQStringHandler(){
+   
+  }
   QString &createQString(const string &content) {
         if (qStrings.find(content) == qStrings.end()) {
             QString *newString = new QString(content.c_str());
@@ -56,13 +59,9 @@ class MyQStringHandler{
 
     string fromQString(const QString &qString) {
         std::string result;
-
-        // 遍历 QString 的迭代器
         for (auto it = qString.begin(); it != qString.end(); ++it) {
             QChar ch = *it;
-
-            // 根据需求选择转换方法，例如 toLatin1 或 Unicode 转换
-            result += ch.toLatin1(); // 或者使用 ch.unicode() 进行更高级别的处理
+            result += ch.toLatin1(); 
         }
 
         return result;
@@ -76,7 +75,7 @@ class ConfigPage : public QWidget,MyQStringHandler{
     QVBoxLayout *layout;
     QHBoxLayout *mainLayout;
     View *view;
-    std::unordered_map<std::string, QComboBox *> operationComboBoxes; // 存储每个操作的选择框
+    std::unordered_map<std::string, QComboBox *> operationComboBoxes; 
 
   public:
     ConfigPage(View *view, QWidget *parent = nullptr);
@@ -85,7 +84,7 @@ class ConfigPage : public QWidget,MyQStringHandler{
     
 
   signals:
-    void configCompleted(); // 配置完成信号
+    void configCompleted(); 
 };
 
 class View : public QMainWindow ,MyQStringHandler {
@@ -94,18 +93,17 @@ class View : public QMainWindow ,MyQStringHandler {
     int height;
     int width;
     Model model;
-    // using dynamic_cast to change type
+ 
     std::unordered_map<string, QObject *> qObjects;
-    std::unordered_map<string, QString *> qStrings;
     std::unordered_map<string, string> algorithmTypes;
 
     ConfigPage *configPage;
 
     void warnUser(const std::string &content) {
-        // 将 std::string 转换为 QString
+       
         QString qContent = createQString(content);
 
-        // 显示警告框
+     
         QMessageBox::warning(nullptr, createQString("Warning"), qContent);
     }
 
@@ -141,13 +139,13 @@ class View : public QMainWindow ,MyQStringHandler {
   private slots:
     
 
-    void openConfigPage() { // 隐藏主页面
-        configPage->show(); // 显示配置页面
+    void openConfigPage() { 
+        configPage->show(); 
     }
 
     void showMainPage() {
-        configPage->hide(); // 隐藏配置页面           // 显示主页面
+        configPage->hide(); 
     }
 };
 
-#endif /* F0C98FE3_6EA2_41DD_87A2_BCF91456C0BE */
+#endif 

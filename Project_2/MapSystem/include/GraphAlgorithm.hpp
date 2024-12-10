@@ -18,15 +18,15 @@ class GraphAlgorithms {
   private:
     const Graph<DataType> &graph;
 
-    // 缓存结构：存储计算结果
+
     mutable std::unordered_map<std::string, std::unordered_map<int, std::any>> cache;
 
-    // 生成缓存键值
+
     std::string generateCacheKey(const std::string &algoName, int id) const {
         return algoName + "_" + std::to_string(id);
     }
 
-    // 缓存查找
+
     template <typename T>
     std::optional<T> getCachedResult(const std::string &key, int id) const {
         auto it = cache.find(key);
@@ -39,7 +39,7 @@ class GraphAlgorithms {
         return std::nullopt;
     }
 
-    // 缓存存储
+
     template <typename T>
     void storeInCache(const std::string &key, int id, const T &result) const {
         cache[key][id] = result;
@@ -137,7 +137,7 @@ class GraphAlgorithms {
         vector<double> distances(n, INT_MAX);
         distances[sourceId] = 0;
 
-        // 记录前驱节点，用于回溯路径
+
         std::unordered_map<int, vector<int>> prev;
         for (int i = 0; i < n; ++i) {
             prev[i] = {};
@@ -202,9 +202,9 @@ class GraphAlgorithms {
         int n = graph.getVertices().size();
         vector<bool> InMST(n, false);
         std::priority_queue<shared_ptr<Edge<DataType>>, vector<shared_ptr<Edge<DataType>>>, std::function<bool(const shared_ptr<Edge<DataType>> &, const shared_ptr<Edge<DataType>> &)>> pq([](const shared_ptr<Edge<DataType>> &a, const shared_ptr<Edge<DataType>> &b) {
-            return a->getWeight() > b->getWeight(); // 按边权从小到大排序
+            return a->getWeight() > b->getWeight(); 
         });
-        vector<shared_ptr<Edge<DataType>>> mstEdges; // 存储生成树的边
+        vector<shared_ptr<Edge<DataType>>> mstEdges; 
         InMST[startId] = true;
         auto adjList = graph.getAdjList();
         for (const auto &edge_ptr : adjList[startId]) {
@@ -215,7 +215,7 @@ class GraphAlgorithms {
             pq.pop();
 
             Edge<DataType> *edge = edge_ptr.get();
-            int dest = edge->getSecond()->getId(); // 边的目标节点
+            int dest = edge->getSecond()->getId(); 
 
             if (InMST[dest]) continue;
 
@@ -242,23 +242,23 @@ class GraphAlgorithms {
     //     std::vector<shared_ptr<Edge<DataType>>> edges = graph.getEdges();
     //     std::vector<shared_ptr<Edge<DataType>>> mstEdges;
 
-    //     // 并查集（Union-Find）辅助结构
+    //     
     //     std::vector<int> parent(n);
     //     std::vector<int> rank(n, 0);
 
-    //     // 初始化并查集
+    //     
     //     for (int i = 0; i < n; ++i) {
     //         parent[i] = i;
     //     }
 
     //     auto find = std::function<int(int)>([&](int x) {
     //         if (parent[x] != x) {
-    //             parent[x] = find(parent[x]); // 路径压缩
+    //             parent[x] = find(parent[x]); 
     //         }
     //         return parent[x];
     //     });
 
-    //     // 辅助函数：合并两个集合
+    //     
     //     auto unionSets = [&](int x, int y) {
     //         int rootX = find(x);
     //         int rootY = find(y);
@@ -276,34 +276,31 @@ class GraphAlgorithms {
     //         return false;
     //     };
 
-    //     // 按权值排序边
+    //     
     //     std::sort(edges.begin(), edges.end(), [](const shared_ptr<Edge<DataType>> &a, const shared_ptr<Edge<DataType>> &b) { return a->getWeight() < b->getWeight(); });
 
-    //     // 构建MST
+    //     
     //     for (const auto &edge : edges) {
     //         int u = edge->getFirst()->getId();
     //         int v = edge->getSecond()->getId();
-    //         if (unionSets(u, v)) { // 如果合并成功，则加入MST
+    //         if (unionSets(u, v)) { 
     //             mstEdges.push_back(edge);
     //         }
-    //         if (mstEdges.size() == n - 1) break; // 提前结束
+    //         if (mstEdges.size() == n - 1) break; 
     //     }
 
     //     return mstEdges;
     // }
-
     double calculateMinimumTotalWeight(const std::vector<std::shared_ptr<Edge<DataType>>> &edges, int n) {
-        // 并查集初始化
         std::vector<int> parent(n);
         std::vector<int> rank(n, 0);
         for (int i = 0; i < n; ++i) {
             parent[i] = i;
         }
 
-        // 查找根节点
         auto find = [&](int x, std::vector<int> &parentRef) -> int {
             while (x != parentRef[x]) {
-                parentRef[x] = parentRef[parentRef[x]]; // 路径压缩
+                parentRef[x] = parentRef[parentRef[x]]; 
                 x = parentRef[x];
             }
             return x;
@@ -325,29 +322,32 @@ class GraphAlgorithms {
     }
 
     std::vector<std::vector<std::shared_ptr<Edge<DataType>>>> kruskal() {
+        string key = "kruskal";
+        if (auto cachedResult = getCachedResult<vector<std::vector<std::shared_ptr<Edge<DataType>>>>>(key, 0)) {
+            return *cachedResult;
+        }
         int n = graph.getVertices().size();
         std::vector<std::shared_ptr<Edge<DataType>>> edges = graph.getEdges();
         std::vector<std::vector<std::shared_ptr<Edge<DataType>>>> results;
 
-        std::set<std::set<std::pair<int, int>>> uniqueMSTs; // 存储所有唯一的 MST
+        std::set<std::set<std::pair<int, int>>> uniqueMSTs; 
 
-        // 按权值排序边
         std::sort(edges.begin(), edges.end(), [](const std::shared_ptr<Edge<DataType>> &a, const std::shared_ptr<Edge<DataType>> &b) { return a->getWeight() < b->getWeight(); });
 
-        // 计算最小总权重
+        
         double minTotalWeight = calculateMinimumTotalWeight(edges, n);
 
-        // 回溯逻辑
+      
         std::function<void(int, std::vector<std::shared_ptr<Edge<DataType>>>, std::vector<int>, std::vector<int>, double)> backtrack;
         backtrack = [&](int edgeIndex, std::vector<std::shared_ptr<Edge<DataType>>> currentMST, std::vector<int> parent, std::vector<int> rank, double currentWeight) {
-            // 结果数量限制（用于测试）
-            if (results.size() >= 2) {
+           
+            if(results.size()>=2){
                 return;
             }
 
-            // 如果当前生成树的边数达到 n - 1
+            
             if (currentMST.size() == n - 1) {
-                // 检查当前生成树的总权重是否等于最小总权重
+               
                 if (std::abs(currentWeight - minTotalWeight) < 1e-6) {
                     std::set<std::pair<int, int>> edgeSet;
                     for (const auto &edge : currentMST) {
@@ -364,7 +364,7 @@ class GraphAlgorithms {
                 return;
             }
 
-            // 剪枝：如果剩余的边不足以完成生成树，或者当前总权重已经超过最小总权重
+            
             if (edgeIndex >= edges.size() || currentMST.size() + (edges.size() - edgeIndex) < n - 1 || currentWeight > minTotalWeight) {
                 return;
             }
@@ -375,10 +375,10 @@ class GraphAlgorithms {
                 int v = currentEdge->getSecond()->getId();
                 double weight = currentEdge->getWeight();
 
-                // 查找根节点
+               
                 auto find = [&](int x, std::vector<int> &parentRef) -> int {
                     while (x != parentRef[x]) {
-                        parentRef[x] = parentRef[parentRef[x]]; // 路径压缩
+                        parentRef[x] = parentRef[parentRef[x]]; 
                         x = parentRef[x];
                     }
                     return x;
@@ -388,16 +388,16 @@ class GraphAlgorithms {
                 int rootV = find(v, parent);
 
                 if (rootU != rootV) {
-                    // 包含当前边
+                    
                     std::vector<std::shared_ptr<Edge<DataType>>> newMST = currentMST;
                     newMST.push_back(currentEdge);
                     double newWeight = currentWeight + weight;
 
-                    // 复制 parent 和 rank
+                   
                     std::vector<int> newParent = parent;
                     std::vector<int> newRank = rank;
 
-                    // 合并两个集合
+                  
                     if (newRank[rootU] < newRank[rootV]) {
                         newParent[rootU] = rootV;
                     } else if (newRank[rootU] > newRank[rootV]) {
@@ -407,17 +407,23 @@ class GraphAlgorithms {
                         newRank[rootU]++;
                     }
 
-                    // 递归包含当前边
+                    
                     backtrack(i + 1, newMST, newParent, newRank, newWeight);
                 }
-                if (i < edges.size() - 1 && (edges[i].get()->getWeight() - edges[i + 1].get()->getWeight() < 1e-6)) {
-                    // 不包含当前边
-                    backtrack(i + 1, currentMST, parent, rank, currentWeight);
+                
+                if (i < edges.size() - 1 && std::abs((edges[i].get()->getWeight() - edges[i + 1].get()->getWeight() ))< 1e-6) {
+                    int id_1=edges[i]->getSecond().get()->getId();
+                    int id_2=edges[i+1]->getFirst().get()->getId();
+                    bool flag_1=id_1!=id_2;
+                    if(flag_1){
+                        backtrack(i + 1, currentMST, parent, rank, currentWeight);
+                    }
+                    
                 }
             }
         };
 
-        // 初始化并查集
+        
         std::vector<int> initialParent(n);
         std::vector<int> initialRank(n, 0);
         for (int i = 0; i < n; ++i) {
@@ -427,7 +433,7 @@ class GraphAlgorithms {
         std::vector<std::shared_ptr<Edge<DataType>>> currentMST;
         double initialWeight = 0.0;
         backtrack(0, currentMST, initialParent, initialRank, initialWeight);
-
+        storeInCache(key, 0, results);
         return results;
     }
 };

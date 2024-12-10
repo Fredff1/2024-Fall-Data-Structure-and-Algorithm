@@ -189,30 +189,6 @@ include/moc_View.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/include/moc_View.cpp.s
 .PHONY : include/moc_View.cpp.s
 
-src/Model.obj: src/Model.cpp.obj
-.PHONY : src/Model.obj
-
-# target to build an object file
-src/Model.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/src/Model.cpp.obj
-.PHONY : src/Model.cpp.obj
-
-src/Model.i: src/Model.cpp.i
-.PHONY : src/Model.i
-
-# target to preprocess a source file
-src/Model.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/src/Model.cpp.i
-.PHONY : src/Model.cpp.i
-
-src/Model.s: src/Model.cpp.s
-.PHONY : src/Model.s
-
-# target to generate assembly for a file
-src/Model.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\MyQtProject.dir\build.make CMakeFiles/MyQtProject.dir/src/Model.cpp.s
-.PHONY : src/Model.cpp.s
-
 src/View.obj: src/View.cpp.obj
 .PHONY : src/View.obj
 
@@ -277,9 +253,6 @@ help:
 	@echo ... include/moc_View.obj
 	@echo ... include/moc_View.i
 	@echo ... include/moc_View.s
-	@echo ... src/Model.obj
-	@echo ... src/Model.i
-	@echo ... src/Model.s
 	@echo ... src/View.obj
 	@echo ... src/View.i
 	@echo ... src/View.s

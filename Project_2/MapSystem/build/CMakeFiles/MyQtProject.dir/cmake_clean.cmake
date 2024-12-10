@@ -3,8 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/MyQtProject.dir/MyQtProject_autogen/mocs_compilation.cpp.obj.d"
   "CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj"
   "CMakeFiles/MyQtProject.dir/include/moc_View.cpp.obj.d"
-  "CMakeFiles/MyQtProject.dir/src/Model.cpp.obj"
-  "CMakeFiles/MyQtProject.dir/src/Model.cpp.obj.d"
   "CMakeFiles/MyQtProject.dir/src/View.cpp.obj"
   "CMakeFiles/MyQtProject.dir/src/View.cpp.obj.d"
   "CMakeFiles/MyQtProject.dir/src/main.cpp.obj"

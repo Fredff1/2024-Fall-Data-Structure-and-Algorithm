@@ -25,7 +25,7 @@ class Model {
     }
 
     string operation_III(string start_name = "A", string type = "prim") {
-        vector<shared_ptr<Edge<MapNodeData>>> result = map.MST(start_name, type);
+        auto result = map.MST(start_name, type);
         string content = map.mstToString(result);
         return "Algorithm: " + type + "\n" + content;
     }
